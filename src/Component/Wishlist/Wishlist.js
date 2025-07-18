@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom';
 
 import Card from '../Card/Card';
 import './Wishlist.css';
 import axios from "axios";
 import { SeaTable } from "../SeaTable/SeaTable";
 import Loader from "../Loader/Loader";
+import ProgressBar from "../ProgressBar/ProgressBar";
 
 const Wishlist = () => {
     const [newWish, setNewWish] = useState({ Id: '', State: 0, Description: '' });
@@ -15,7 +15,7 @@ const Wishlist = () => {
     const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
     const [wishes, setWishes] = useState([]);
-    const navigate = useNavigate();
+    const [percent, setPercent] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,6 +30,10 @@ const Wishlist = () => {
             const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/?table_name=${SeaTable.table_name}&convert_keys=true`, options);
             if (response.status === 200) {
                 setWishes(response.data.rows);
+                const completedWish = response.data.rows.filter(wish =>
+                    wish.State === 1
+                );
+                setPercent((completedWish.length / response.data.rows.length).toFixed(2));
                 setLoadedData(true);
             } else {
                 setNeedUpdated(true);
@@ -37,7 +41,6 @@ const Wishlist = () => {
         };
 
         fetchData();
-        console.log(wishes);
     }, [SeaTable.dtable_uuid, SeaTable.access_token, SeaTable.table_name]);
 
     const addWish = () => {
@@ -123,6 +126,7 @@ const Wishlist = () => {
                 </div>
                 <input type="button" value="Agregar Deseo" className="floating-button" onClick={(e) => setCreate(true)} />
             </div>
+            <ProgressBar percent={percent} />
             {needUpdated ? (
                 <div className="dark-window-notice">
                     <div className="content">
@@ -135,7 +139,7 @@ const Wishlist = () => {
                 <div className="window-notice">
                     <div className="content">
                         <div className="popup">
-                            <a className="close-btn" onClick={(e) => { setCreate(false); setNewWish({ Id: '', State: '', Description: '' }) }}>✖️</a>
+                            <a className="close-btn" onClick={(e) => { setCreate(false); setNewWish({ Id: '', State: 0, Description: '' }) }}>✖️</a>
                             <form className="form">
                                 <div className="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 34 34" height="34" width="34">
