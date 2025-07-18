@@ -31,9 +31,9 @@
 
     .number {
         position: absolute;
-        top: -90px;
-        right: -85px;
-        padding: 80px 100px 30px 30px;
+        top: -70px;
+        right: -70px;
+        padding: 60px 80px 10px 30px;
         background: #44e30f;
         border-radius: 100%;
         z-index: 5;
@@ -66,6 +66,7 @@
     position: relative;
     z-index: 5;
     transition: all 0.5s;
+    max-width: 80%;
 }
 
 .icon {
@@ -82,9 +83,9 @@
 
 .number {
     position: absolute;
-    top: -90px;
-    right: -85px;
-    padding: 80px 100px 30px 30px;
+    top: -70px;
+    right: -70px;
+    padding: 60px 80px 10px 30px;
     background: #0e2954;
     border-radius: 100%;
     z-index: 5;
