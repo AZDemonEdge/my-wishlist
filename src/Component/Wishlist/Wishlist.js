@@ -75,12 +75,7 @@ const Wishlist = () => {
             body: JSON.stringify({
                 updates: [{
                     row: {
-                        Id: currentWish.Id, State: currentWish.State, Description: currentWish.Description, Photo: [{
-                            name: currentWish.Photo.name,
-                            url: URL.createObjectURL(currentWish.Photo),
-                            type: currentWish.Photo.type,
-                        }]
-                    }, row_id: currentWish.row_id
+                        Id: currentWish.Id, State: currentWish.State, Description: currentWish.Description}, row_id: currentWish.row_id
                 }],
                 table_name: `${SeaTable.table_name}`
             })
