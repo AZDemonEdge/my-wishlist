@@ -54,7 +54,7 @@ const Wishlist = () => {
                 'content-type': 'application/json',
                 authorization: `Bearer ${SeaTable.access_token}`
             },
-            body: JSON.stringify({ table_name: `${SeaTable.table_name}`, rows: [{ Id: newWish.Id, State: newWish.State, Description: newWish.Description, Photo: '' }] })
+            body: JSON.stringify({ table_name: `${SeaTable.table_name}`, rows: [{ Id: newWish.Id, State: newWish.State, Description: newWish.Description }] })
         };
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)

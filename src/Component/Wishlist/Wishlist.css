@@ -225,11 +225,11 @@
   background-color: #44e30f;
   color: white;
   padding: 6px 30px;
-  transform: rotate(-45deg) translateX(-40%) translateY(-400%);
+  transform: rotate(-45deg) translateX(-40%) translateY(-450%);
   transform-origin: top right;
   font-size: 20px;
   font-weight: bold;
-  width: 200px;
+  width: 190px;
   text-align: center;
   text-transform: uppercase;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
