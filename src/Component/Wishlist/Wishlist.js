@@ -16,7 +16,8 @@ const Wishlist = () => {
     const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
     const [wishes, setWishes] = useState([]);
-    const [percent, setPercent] = useState(0);
+    const [current, setCurrent] = useState(0);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +35,8 @@ const Wishlist = () => {
                 const completedWish = response.data.rows.filter(wish =>
                     wish.State === 1
                 );
-                setPercent((completedWish.length / response.data.rows.length * 100).toFixed(0));
+                setCurrent(completedWish.length);
+                setTotal(response.data.rows.length);
                 setLoadedData(true);
             } else {
                 setNeedUpdated(true);
@@ -135,7 +137,7 @@ const Wishlist = () => {
                 </div>
                 <input type="button" value="Agregar Deseo" className="floating-button" onClick={(e) => setCreate(true)} />
             </div>
-            <ProgressBar percent={percent} />
+            <ProgressBar current={current} total={total} />
             {needUpdated ? (
                 <div className="dark-window-notice">
                     <div className="content">

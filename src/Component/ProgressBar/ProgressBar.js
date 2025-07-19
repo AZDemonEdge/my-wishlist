@@ -1,27 +1,28 @@
 import styled from 'styled-components';
 
-const ProgressBar = ({percent}) => {
-    return (
-        <StyledWrapper>
-            <div className="container">
-                <div className="skill-box">
-                    <span className="title">Progreso</span>
-                    <div className="skill-bar">
-                        <span className="skill-per wish" style={{width : percent + "%"}}>
-                            <span className="tooltip">{percent}%</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </StyledWrapper>
-    );
+const ProgressBar = ({ current, total }) => {
+  const percent = current / total * 100;
+  return (
+    <StyledWrapper>
+      <div className="container">
+        <div className="skill-box">
+          <div className="skill-bar">
+            <span className="skill-per wish" style={{ width: percent + "%" }}>
+              <span className="tooltip">{percent}%</span>
+            </span>
+          </div>
+          <span className="title">Progreso <i style={{ float: 'right' }}>{current} / {total}</i></span>
+        </div>
+      </div>
+    </StyledWrapper>
+  );
 }
 
 const StyledWrapper = styled.div`
   .container {
     position: absolute;
     width: 90%;
-    bottom: 1%;
+    bottom: 5px;
     left: 5%;
     border-radius: 7px;
   }
@@ -35,7 +36,6 @@ const StyledWrapper = styled.div`
     display: block;
     font-size: 14px;
     font-weight: 600;
-    margin-left: 20px;
     color: #fff;
   }
 
@@ -77,7 +77,7 @@ const StyledWrapper = styled.div`
   .skill-per .tooltip {
     position: absolute;
     right: -14px;
-    top: -28px;
+    top: -20px;
     font-size: 9px;
     font-weight: 500;
     color: #fff;

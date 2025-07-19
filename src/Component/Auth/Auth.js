@@ -18,7 +18,7 @@ const Auth = () => {
     return (
         <div className="bg-gradient">
             <div className="form-container">
-                <form className="form">
+                <form className="Auth-form">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="lock-icon"

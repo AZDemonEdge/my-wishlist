@@ -87,11 +87,10 @@
 }
 
 
-/* HEART LOADER */
 .heartbeatloader {
   position: absolute;
-  width: 10vmin;
-  height: 10vmin;
+  width: 30vmin;
+  height: 30vmin;
   z-index: -2;
   margin: auto;
   top: 0;
