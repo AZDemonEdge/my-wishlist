@@ -191,12 +191,13 @@ const Wishlist = () => {
                 <div className="window-notice">
                     <div className="content">
                         <div className="popup">
+                            {currentWish.State === 1 && (<div class="ribbon">COMPLETADO</div>)}
                             <a className="close-btn" onClick={(e) => { setEdit(false); setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }) }}>✖️</a>
                             <form className="form">
                                 <div className="note">
                                     <label className="title">Información del deseo</label>
                                 </div>
-                                <img src={currentWish.Photo ? currentWish.Photo[0].url : "./OIP.webp"} alt="Foto no cargada" style={{ width: 100 + '%', cursor: 'pointer' }} />
+                                <img src={currentWish.State === 0 ? "./OIP.webp" : (currentWish.Photo ? currentWish.Photo : "./OIP.webp")} style={{ width: 100 + '%', cursor: 'pointer', borderRadius: 10 + 'px', border: 1 + 'px solid white', boxShadow: 0 + ' ' + 0 + ' ' + 4 + 'px grey'  }} />
                                 <input
                                     placeholder="Número del Deseo"
                                     name="Id"
