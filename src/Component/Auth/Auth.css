@@ -1,8 +1,8 @@
 .form-container {
     max-width: 95%;
-    margin: 50% auto;
+    margin: auto;
     width: 400px;
-    height: 320px;
+    height: 400px;
     background: #fff;
     border-radius: 8px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -25,11 +25,10 @@
         "Lucida Sans", Arial, sans-serif;
     box-sizing: border-box;
     color: #0e2954;
-    position: relative;
 }
 
 .toggle-input {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     opacity: 0;
@@ -53,26 +52,16 @@
     text-align: justify;
 }
 
-.login-card,
-.password-card {
+.login-card{
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     padding-top: 25px;
     gap: 20px;
     align-items: flex-end;
-    position: absolute;
     width: calc(100% - 30px);
     transition: all 0.3s ease-in-out;
     bottom: 20px;
-}
-
-.login-card {
-    left: 15px;
-}
-
-.password-card {
-    left: 100%;
 }
 
 .field-container {

@@ -2,10 +2,8 @@ import './Card.css';
 
 const Card = ({ wish, setCurrentWish, setEdit }) => {
     const clickEvent = (e) => {
-        if (wish.State === 0) {
-            setCurrentWish({ row_id: wish._id, Id: wish.Id, State: wish.State, Description: wish.Description });
-            setEdit(true);
-        }
+        setCurrentWish({ row_id: wish._id, Id: wish.Id, State: wish.State, Description: wish.Description, Photo: wish.Photo });
+        setEdit(true);
     }
     return (
         <>
