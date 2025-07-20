@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const ProgressBar = ({ current, total }) => {
-  const percent = current / total * 100;
+  const percent = (current / total * 100).toFixed(2);
   return (
     <StyledWrapper>
       <div className="container">
