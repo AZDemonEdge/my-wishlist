@@ -10,7 +10,6 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 const Wishlist = () => {
     const [newWish, setNewWish] = useState({ Id: '', State: 0, Description: '' });
     const [currentWish, setCurrentWish] = useState({ row_id: '', Id: '', State: '', Description: '', Photo: '' });
-    const [photo, setPhoto] = useState('');
     const [create, setCreate] = useState(false);
     const [edit, setEdit] = useState(false);
     const [needUpdated, setNeedUpdated] = useState(false);
@@ -59,7 +58,7 @@ const Wishlist = () => {
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
-            .then(res => window.location.reload())
+            .then(res => { setNewWish({ Id: '', State: 0, Description: '' }); window.location.reload()})
             .catch(err => console.error(err));
     }
 
@@ -83,7 +82,7 @@ const Wishlist = () => {
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
-            .then(res => console.log(res))
+            .then(res => {setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
             .catch(err => console.error(err));
     }
 
@@ -103,7 +102,7 @@ const Wishlist = () => {
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
-            .then(res => window.location.reload())
+            .then(res => {setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
             .catch(err => console.error(err));
     }
 
@@ -133,15 +132,14 @@ const Wishlist = () => {
                 <input type="button" value="Agregar Deseo" className="floating-button" onClick={(e) => setCreate(true)} />
             </div>
             <ProgressBar current={current} total={total} />
-            {needUpdated ? (
+            {needUpdated && (
                 <div className="dark-window-notice">
                     <div className="content">
                         <Loader />
                     </div>
-                </div>) :
-                ''
+                </div>)
             }
-            {create ? (
+            {create && (
                 <div className="window-notice">
                     <div className="content">
                         <div className="popup">
@@ -179,10 +177,9 @@ const Wishlist = () => {
                             </form>
                         </div>
                     </div>
-                </div>) :
-                ''
+                </div>) 
             }
-            {edit ? (
+            {edit && (
                 <div className="window-notice">
                     <div className="content">
                         <div className="popup">
@@ -217,7 +214,7 @@ const Wishlist = () => {
                         </div>
                     </div>
                 </div>
-            ) : ''}
+            )}
         </>
     )
 }
