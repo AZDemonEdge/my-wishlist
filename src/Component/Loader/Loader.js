@@ -50,7 +50,7 @@ const Loader = () => {
                         </li>
                     </ul>
                 </div>
-                <span>No se pudo connectar con la versión actual de tu lista de deseos. Por favor actualice la aplicación</span>
+                <span>No se pudo connectar con la versión actual de tu lista de deseos. Por favor actualice la aplicación.</span>
             </div>
         </>
     );

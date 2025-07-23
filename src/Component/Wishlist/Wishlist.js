@@ -28,18 +28,22 @@ const Wishlist = () => {
                 }
             };
 
-            const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/?table_name=${SeaTable.table_name}&convert_keys=true`, options);
-            if (response.status === 200) {
-                setWishes(response.data.rows);
-                const completedWish = response.data.rows.filter(wish =>
-                    wish.State === 1
-                );
-                setCurrent(completedWish.length);
-                setTotal(response.data.rows.length);
+            try {
+                const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/?table_name=${SeaTable.table_name}&convert_keys=true`, options);
+                if (response.status === 200) {
+                    setWishes(response.data.rows);
+                    const completedWish = response.data.rows.filter(wish =>
+                        wish.State === 1
+                    );
+                    setCurrent(completedWish.length);
+                    setTotal(response.data.rows.length);
+                    setLoadedData(true);
+                }
+            } catch (AxiosError) {
                 setLoadedData(true);
-            } else {
                 setNeedUpdated(true);
             }
+
         };
 
         fetchData();
@@ -58,7 +62,7 @@ const Wishlist = () => {
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
-            .then(res => { setNewWish({ Id: '', State: 0, Description: '' }); window.location.reload()})
+            .then(res => { setNewWish({ Id: '', State: 0, Description: '' }); window.location.reload() })
             .catch(err => console.error(err));
     }
 
@@ -74,7 +78,8 @@ const Wishlist = () => {
             body: JSON.stringify({
                 updates: [{
                     row: {
-                        Id: currentWish.Id, State: currentWish.State, Description: currentWish.Description}, row_id: currentWish.row_id
+                        Id: currentWish.Id, State: currentWish.State, Description: currentWish.Description
+                    }, row_id: currentWish.row_id
                 }],
                 table_name: `${SeaTable.table_name}`
             })
@@ -82,7 +87,7 @@ const Wishlist = () => {
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
-            .then(res => {setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
+            .then(res => { setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
             .catch(err => console.error(err));
     }
 
@@ -102,7 +107,7 @@ const Wishlist = () => {
 
         fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
-            .then(res => {setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
+            .then(res => { setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
             .catch(err => console.error(err));
     }
 
@@ -123,6 +128,13 @@ const Wishlist = () => {
 
     return (
         <>
+            {needUpdated && (
+                <div className="dark-window-notice">
+                    <div className="content">
+                        <Loader />
+                    </div>
+                </div>)
+            }
             <div className='bg-gradient'>
                 <div className="limit-h">
                     {wishes.map((wish) => (
@@ -132,13 +144,6 @@ const Wishlist = () => {
                 <input type="button" value="Agregar Deseo" className="floating-button" onClick={(e) => setCreate(true)} />
             </div>
             <ProgressBar current={current} total={total} />
-            {needUpdated && (
-                <div className="dark-window-notice">
-                    <div className="content">
-                        <Loader />
-                    </div>
-                </div>)
-            }
             {create && (
                 <div className="window-notice">
                     <div className="content">
@@ -177,7 +182,7 @@ const Wishlist = () => {
                             </form>
                         </div>
                     </div>
-                </div>) 
+                </div>)
             }
             {edit && (
                 <div className="window-notice">
@@ -189,7 +194,7 @@ const Wishlist = () => {
                                 <div className="note">
                                     <label className="title">Información del deseo</label>
                                 </div>
-                                <img src={currentWish.State === 0 ? "./OIP.webp" : (currentWish.Photo ? currentWish.Photo : "./OIP.webp")} style={{ width: 100 + '%', cursor: 'pointer', borderRadius: 10 + 'px', border: 1 + 'px solid white', boxShadow: 0 + ' ' + 0 + ' ' + 4 + 'px grey'  }} />
+                                <img src={currentWish.State === 0 ? "./OIP.webp" : (currentWish.Photo ? currentWish.Photo : "./OIP.webp")} style={{ width: 100 + '%', cursor: 'pointer', borderRadius: 10 + 'px', border: 1 + 'px solid white', boxShadow: 0 + ' ' + 0 + ' ' + 4 + 'px grey' }} />
                                 <input
                                     placeholder="Número del Deseo"
                                     name="Id"
