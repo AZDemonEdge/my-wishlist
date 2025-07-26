@@ -7,7 +7,8 @@ const Auth = () => {
     const [error, setError] = useState(false);
     const navigate = useNavigate();
 
-    const AccessCode = () => {
+    const AccessCode = (e) => {
+        e.preventDefault();
         if (code === '070725') {
             navigate('/wishes');
         } else {
@@ -18,7 +19,7 @@ const Auth = () => {
     return (
         <div className="bg-gradient">
             <div className="form-container">
-                <form className="Auth-form">
+                <form className="Auth-form" onSubmit={AccessCode}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="lock-icon"
