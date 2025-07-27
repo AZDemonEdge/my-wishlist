@@ -22,9 +22,10 @@ const StyledWrapper = styled.div`
   .container {
     position: absolute;
     width: 90%;
-    bottom: 5px;
+    bottom: 0;
     left: 5%;
     border-radius: 7px;
+    margin: -50px 0;
   }
 
   .container .skill-box {
