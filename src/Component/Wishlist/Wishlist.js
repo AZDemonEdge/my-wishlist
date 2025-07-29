@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import Card from '../Card/Card';
 import './Wishlist.css';
 import axios from "axios";
-import { SeaTable } from "../SeaTable/SeaTable";
 import Loader from "../Loader/Loader";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
@@ -17,19 +16,20 @@ const Wishlist = () => {
     const [wishes, setWishes] = useState([]);
     const [current, setCurrent] = useState(0);
     const [total, setTotal] = useState(0);
+    const [seatable, setSeatable] = useState({ table_name: "Table1", dtable_uuid: '', access_token: '' });
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async (dtable_uuid, access_token) => {
             const options = {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    authorization: `Bearer ${SeaTable.access_token}`
+                    authorization: `Bearer ${access_token}`
                 }
             };
 
             try {
-                const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/?table_name=${SeaTable.table_name}&convert_keys=true`, options);
+                const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${dtable_uuid}/rows/?table_name=${seatable.table_name}&convert_keys=true`, options);
                 if (response.status === 200) {
                     setWishes(response.data.rows);
                     const completedWish = response.data.rows.filter(wish =>
@@ -46,8 +46,24 @@ const Wishlist = () => {
 
         };
 
-        fetchData();
-    }, [SeaTable.dtable_uuid, SeaTable.access_token, SeaTable.table_name]);
+        const loadSeatable = async () => {
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    authorization: 'Bearer aed3cbdcbdf203cff2143324622ad1eca1cc14df'
+                }
+            }
+
+            const response = await axios.get('https://cloud.seatable.io/api/v2.1/dtable/app-access-token/', options);
+            if (response.status === 200) {
+                setSeatable({...seatable, dtable_uuid: response.data.dtable_uuid, access_token: response.data.access_token});
+                fetchData(response.data.dtable_uuid, response.data.access_token);
+            }
+        }
+
+        loadSeatable();
+    }, [seatable]);
 
     const addWish = () => {
         const options = {
@@ -55,12 +71,12 @@ const Wishlist = () => {
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json',
-                authorization: `Bearer ${SeaTable.access_token}`
+                authorization: `Bearer ${seatable.access_token}`
             },
-            body: JSON.stringify({ table_name: `${SeaTable.table_name}`, rows: [{ Id: newWish.Id, State: newWish.State, Description: newWish.Description }] })
+            body: JSON.stringify({ table_name: `${seatable.table_name}`, rows: [{ Id: newWish.Id, State: newWish.State, Description: newWish.Description }] })
         };
 
-        fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
+        fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${seatable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
             .then(res => { setNewWish({ Id: '', State: 0, Description: '' }); window.location.reload() })
             .catch(err => console.error(err));
@@ -73,7 +89,7 @@ const Wishlist = () => {
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json',
-                authorization: `Bearer ${SeaTable.access_token}`
+                authorization: `Bearer ${seatable.access_token}`
             },
             body: JSON.stringify({
                 updates: [{
@@ -81,11 +97,11 @@ const Wishlist = () => {
                         Id: currentWish.Id, State: currentWish.State, Description: currentWish.Description
                     }, row_id: currentWish.row_id
                 }],
-                table_name: `${SeaTable.table_name}`
+                table_name: `${seatable.table_name}`
             })
         };
 
-        fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
+        fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${seatable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
             .then(res => { setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
             .catch(err => console.error(err));
@@ -97,15 +113,15 @@ const Wishlist = () => {
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json',
-                authorization: `Bearer ${SeaTable.access_token}`
+                authorization: `Bearer ${seatable.access_token}`
             },
             body: JSON.stringify({
                 updates: [{ row: { State: '1' }, row_id: currentWish.row_id }],
-                table_name: `${SeaTable.table_name}`
+                table_name: `${seatable.table_name}`
             })
         };
 
-        fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${SeaTable.dtable_uuid}/rows/`, options)
+        fetch(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${seatable.dtable_uuid}/rows/`, options)
             .then(res => res.json())
             .then(res => { setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }); window.location.reload() })
             .catch(err => console.error(err));

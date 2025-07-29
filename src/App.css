@@ -70,7 +70,7 @@
 .dark-window-notice .content {
   display: flex;
   flex-direction: column;
-  margin: 50% auto;
+  margin: auto;
   max-width: 86%;
   padding: 0 1rem;
   font-size: 1.3rem;

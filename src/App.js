@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Auth from './Component/Auth/Auth';
 import Wishlist from './Component/Wishlist/Wishlist';
