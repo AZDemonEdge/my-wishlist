@@ -13,7 +13,7 @@ const Wishlist = () => {
     const [currentWish, setCurrentWish] = useState({ docId: '', Id: '', State: '', Description: '', Photo: '' });
     const [create, setCreate] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [needUpdated, setNeedUpdated] = useState(true);
+    const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
     const [wishes, setWishes] = useState([]);
     const [completedWishes, setCompletedWishes] = useState([]);
@@ -21,6 +21,7 @@ const Wishlist = () => {
     useEffect(() => {
         const fetchData = async () => {
             const querySnapshot = await getDocs(collection(db, 'wish'));
+            console.log(querySnapshot);
             const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             const CW = datosArray.filter(item => item.State == 1);
             setCompletedWishes(CW);
