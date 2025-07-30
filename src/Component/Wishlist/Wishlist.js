@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 
 import Card from '../Card/Card';
-import axios from "axios";
 import Loader from "../Loader/Loader";
 import { db } from "./db";
 import './Wishlist.css';
@@ -20,17 +19,19 @@ const Wishlist = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            db.firestore().collection('wish').get()
-                .then((querySnapshot) => { setNeedUpdated(false); })
-                .catch((error) => { setNeedUpdated(true); });
-            const querySnapshot = await getDocs(collection(db, 'wish'));
-            console.log(querySnapshot);
-            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            const CW = datosArray.filter(item => item.State == 1);
-            setCompletedWishes(CW);
-            setWishes(datosArray);
-            setLoadedData(true);
-            setNeedUpdated(false);
+            try {
+                const querySnapshot = await getDocs(collection(db, 'wish'));
+                const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const CW = datosArray.filter(item => item.State == 1);
+                setCompletedWishes(CW);
+                setWishes(datosArray);
+                setLoadedData(true);
+                setNeedUpdated(false);
+            } catch (error) {
+                if (error.code === 'unavailable') {
+                    setNeedUpdated(true);
+                }
+            }
         };
 
         fetchData();
