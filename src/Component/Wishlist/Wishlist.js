@@ -21,17 +21,16 @@ const Wishlist = () => {
     useEffect(() => {
         const fetchData = async () => {
             db.firestore().collection('wish').get()
-                .then((querySnapshot) => {
-                    const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    const CW = datosArray.filter(item => item.State == 1);
-                    setCompletedWishes(CW);
-                    setWishes(datosArray);
-                    setLoadedData(true);
-                    setNeedUpdated(false);
-                })
-                .catch((error) => {
-                    setNeedUpdated(true);
-                });
+                .then((querySnapshot) => { setNeedUpdated(false); })
+                .catch((error) => { setNeedUpdated(true); });
+            const querySnapshot = await getDocs(collection(db, 'wish'));
+            console.log(querySnapshot);
+            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const CW = datosArray.filter(item => item.State == 1);
+            setCompletedWishes(CW);
+            setWishes(datosArray);
+            setLoadedData(true);
+            setNeedUpdated(false);
         };
 
         fetchData();
