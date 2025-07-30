@@ -1,9 +1,9 @@
 import './HeartButton.css';
 
-const HeartButton = ({onClick}) => {
+const HeartButton = ({onclick}) => {
     return (
         <>
-            <button onClick={onClick}>
+            <button onClick={onclick}>
                 <span className="box">
                     NUEVO
                 </span>
