@@ -24,12 +24,11 @@ const Wishlist = () => {
                 const querySnapshot = await getDocs(collection(db, 'wish'));
                 const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 const CW = datosArray.filter(item => item.State == 1);
-                console.log(datosArray);
                 setCompletedWishes(CW);
                 setWishes(datosArray);
                 setLoadedData(true);
                 setNeedUpdated(false);
-            } catch (error) {
+            } catch (FirebaseError) {
                 setLoadedData(true);
                 setNeedUpdated(true);
             }
