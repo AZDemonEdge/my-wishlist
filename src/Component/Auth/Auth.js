@@ -17,7 +17,7 @@ const Auth = () => {
     }
 
     return (
-        <div className="bg-gradient">
+        <div className="bg-gradient center">
             <div className="form-container">
                 <form className="Auth-form" onSubmit={AccessCode}>
                     <svg

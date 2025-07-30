@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
 
 import Card from '../Card/Card';
-import './Wishlist.css';
 import axios from "axios";
 import Loader from "../Loader/Loader";
-import ProgressBar from "../ProgressBar/ProgressBar";
+import { bt } from "./bt";
+import './Wishlist.css';
+import HeartButton from "../HeartButton/HeartButton";
 
 const Wishlist = () => {
     const [newWish, setNewWish] = useState({ Id: '', State: 0, Description: '' });
@@ -14,30 +15,79 @@ const Wishlist = () => {
     const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
     const [wishes, setWishes] = useState([]);
-    const [current, setCurrent] = useState(0);
-    const [total, setTotal] = useState(0);
-    const [seatable, setSeatable] = useState({ table_name: "Table1", dtable_uuid: '', access_token: '' });
+    const [completedWishes, setcompletedWishes] = useState([]);
+    const seatable = { table_name: "Table1", dtable_uuid: bt.dtable_uuid, access_token: bt.access_token };
 
     useEffect(() => {
-        const fetchData = async (dtable_uuid, access_token) => {
+        const init = () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.getAttribute('data-tab');
+
+                    // Remover clase active de todos los botones y contenidos
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Agregar clase active al botón clickeado y su contenido
+                    button.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Funcionalidad del botón flotante
+            const floatingBtn = document.getElementById('floatingBtn');
+            const progressText = document.getElementById('progressText');
+            const progressBar = document.getElementById('progressBar');
+
+            // Porcentaje inicial
+            let currentProgress = completedWishes.length / wishes.length * 100;
+
+            // Función para actualizar la barra de progreso
+            function updateProgress(percentage) {
+                const circumference = 2 * Math.PI * 16; // radio = 16
+                const offset = circumference - (percentage / 100) * circumference;
+                progressBar.style.strokeDasharray = `${circumference} ${circumference}`;
+                progressBar.style.strokeDashoffset = offset;
+            }
+
+            // Inicializar progreso
+            updateProgress(currentProgress);
+
+            // Hover effects
+            floatingBtn.addEventListener('mouseenter', () => {
+                progressText.textContent = '+';
+            });
+
+            floatingBtn.addEventListener('mouseleave', () => {
+                progressText.textContent = currentProgress + '%';
+            });
+        }
+
+        const fetchData = async () => {
             const options = {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    authorization: `Bearer ${access_token}`
+                    authorization: `Bearer ${seatable.access_token}`
                 }
             };
 
             try {
-                const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${dtable_uuid}/rows/?table_name=${seatable.table_name}&convert_keys=true`, options);
+                const response = await axios.get(`https://cloud.seatable.io/api-gateway/api/v2/dtables/${seatable.dtable_uuid}/rows/?table_name=${seatable.table_name}&convert_keys=true`, options);
                 if (response.status === 200) {
-                    setWishes(response.data.rows);
-                    const completedWish = response.data.rows.filter(wish =>
+                    const CW = response.data.rows.filter(wish =>
                         wish.State === 1
                     );
-                    setCurrent(completedWish.length);
-                    setTotal(response.data.rows.length);
+                    const W = response.data.rows.filter(wish =>
+                        wish.State === 0
+                    );
+                    setWishes(W);
+                    setcompletedWishes(CW);
                     setLoadedData(true);
+                    init();
                 }
             } catch (AxiosError) {
                 setLoadedData(true);
@@ -46,23 +96,7 @@ const Wishlist = () => {
 
         };
 
-        const loadSeatable = async () => {
-            const options = {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json',
-                    authorization: 'Bearer aed3cbdcbdf203cff2143324622ad1eca1cc14df'
-                }
-            }
-
-            const response = await axios.get('https://cloud.seatable.io/api/v2.1/dtable/app-access-token/', options);
-            if (response.status === 200) {
-                setSeatable({...seatable, dtable_uuid: response.data.dtable_uuid, access_token: response.data.access_token});
-                fetchData(response.data.dtable_uuid, response.data.access_token);
-            }
-        }
-
-        loadSeatable();
+        fetchData();
     }, [seatable]);
 
     const addWish = () => {
@@ -142,101 +176,148 @@ const Wishlist = () => {
         );
     }
 
-    return (
-        <>
-            {needUpdated && (
+    if (needUpdated) {
+        return (
+            <>
                 <div className="dark-window-notice">
                     <div className="content">
                         <Loader />
                     </div>
-                </div>)
-            }
-            <div className='bg-gradient'>
-                <div className="limit-h">
-                    {wishes.map((wish) => (
-                        <Card key={wish._id} wish={wish} setCurrentWish={setCurrentWish} setEdit={setEdit} />
-                    ))}
                 </div>
-                <input type="button" value="Agregar Deseo" className="floating-button" onClick={(e) => setCreate(true)} />
-            </div>
-            <ProgressBar current={current} total={total} />
-            {create && (
-                <div className="window-notice">
-                    <div className="content">
-                        <div className="popup">
-                            <a className="close-btn" onClick={(e) => { setCreate(false); setNewWish({ Id: '', State: 0, Description: '' }) }}>✖️</a>
-                            <form className="form">
-                                <div className="icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 34 34" height="34" width="34">
-                                        <path strokeLinejoin="round" strokeWidth="2.5" stroke="#115DFC" d="M7.08385 9.91666L5.3572 11.0677C4.11945 11.8929 3.50056 12.3055 3.16517 12.9347C2.82977 13.564 2.83226 14.3035 2.83722 15.7825C2.84322 17.5631 2.85976 19.3774 2.90559 21.2133C3.01431 25.569 3.06868 27.7468 4.67008 29.3482C6.27148 30.9498 8.47873 31.0049 12.8932 31.1152C15.6396 31.1838 18.3616 31.1838 21.1078 31.1152C25.5224 31.0049 27.7296 30.9498 29.331 29.3482C30.9324 27.7468 30.9868 25.569 31.0954 21.2133C31.1413 19.3774 31.1578 17.5631 31.1639 15.7825C31.1688 14.3035 31.1712 13.564 30.8359 12.9347C30.5004 12.3055 29.8816 11.8929 28.6437 11.0677L26.9171 9.91666"></path>
-                                        <path strokeLinejoin="round" strokeWidth="2.5" stroke="#115DFC" d="M2.83331 14.1667L12.6268 20.0427C14.7574 21.3211 15.8227 21.9603 17 21.9603C18.1772 21.9603 19.2426 21.3211 21.3732 20.0427L31.1666 14.1667"></path>
-                                        <path strokeWidth="2.5" stroke="#115DFC" d="M7.08331 17V8.50001C7.08331 5.82872 7.08331 4.49307 7.91318 3.66321C8.74304 2.83334 10.0787 2.83334 12.75 2.83334H21.25C23.9212 2.83334 25.2569 2.83334 26.0868 3.66321C26.9166 4.49307 26.9166 5.82872 26.9166 8.50001V17"></path>
-                                        <path strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" stroke="#115DFC" d="M14.1667 14.1667H19.8334M14.1667 8.5H19.8334"></path>
-                                    </svg>
-                                </div>
-                                <div className="note">
-                                    <label className="title">Tengo un deseo</label>
-                                    <span className="subtitle">Todo buen romance, tiene deseos o fantasías que cumplir, aquí podrás apuntar las tuyas, para así poder cumplirlas con tu.</span>
-                                </div>
-                                <input
-                                    placeholder="Número del Deseo"
-                                    name="Id"
-                                    type="number"
-                                    className="input_field"
-                                    value={newWish.Id}
-                                    onChange={e => setNewWish({ ...newWish, Id: e.target.value })}
-                                    required />
-                                <input
-                                    placeholder="Escriba el Deseo"
-                                    name="Description"
-                                    type="text"
-                                    className="input_field"
-                                    value={newWish.Description}
-                                    onChange={e => setNewWish({ ...newWish, Description: e.target.value })}
-                                    required />
-                                <input type="button" value="Anotar Deseo" className="input_field submit" onClick={addWish} />
-                            </form>
-                        </div>
-                    </div>
-                </div>)
-            }
+            </>
+        )
+    }
+
+    const listarDeseos = wishes.forEach(wish => {
+        <Card key={wish.id} setCurrentWish={setCurrentWish} setEdit={setEdit} wish={wish} />
+    })
+
+    const listarDeseosCompletados = completedWishes.forEach(wish => {
+        <Card key={wish.id} setCurrentWish={setCurrentWish} setEdit={setEdit} wish={wish} />
+    })
+
+    return (
+        <div className="bg-gradient" >
+
             {edit && (
                 <div className="window-notice">
                     <div className="content">
                         <div className="popup">
-                            {currentWish.State === 1 && (<div class="ribbon">COMPLETADO</div>)}
-                            <a className="close-btn" onClick={(e) => { setEdit(false); setCurrentWish({ row_id: '', Id: '', State: '', Description: '', Photo: '' }) }}>✖️</a>
+                            {currentWish.State === 1 && (<span className="ribbon">COMPLETADO</span>)}
+                            <span className="close-btn" onClick={(e) => setEdit(false)}>✖️</span>
                             <form className="form">
-                                <div className="note">
-                                    <label className="title">Información del deseo</label>
-                                </div>
-                                <img src={currentWish.State === 0 ? "./OIP.webp" : (currentWish.Photo ? currentWish.Photo : "./OIP.webp")} style={{ width: 100 + '%', cursor: 'pointer', borderRadius: 10 + 'px', border: 1 + 'px solid white', boxShadow: 0 + ' ' + 0 + ' ' + 4 + 'px grey' }} />
+                                {currentWish.State === 1 ? (
+                                    <img src={currentWish.Photo ? currentWish.Photo : './OIP.webp'} style={{ width: 100 + '%', border: 1 + 'px solid white', borderRadius: 17 + 'px', boxShadow: '0 0 3px gray', marginTop: 10 + 'px' }} />
+                                ) : (
+                                    <div className="note">
+                                        <label className="title">Editar Deseo</label>
+                                    </div>
+                                )}
                                 <input
                                     placeholder="Número del Deseo"
-                                    name="Id"
+                                    name="ID"
                                     type="number"
                                     className="input_field"
-                                    onChange={e => setCurrentWish({ ...currentWish, Id: e.target.value })}
                                     value={currentWish.Id}
-                                    readOnly={currentWish.State === 0 ? false : true}
+                                    readOnly={currentWish.State === 1}
                                 />
-                                <input
-                                    placeholder="Escriba el Deseo"
-                                    name="Description"
+                                <textarea
+                                    placeholder="Descripción del Deseo"
+                                    name="description"
                                     type="text"
                                     className="input_field"
-                                    onChange={e => setCurrentWish({ ...currentWish, Description: e.target.value })}
+                                    style={{ resize: 'none', width: 100 + '%', height: 100 + 'px', paddingTop: 10 + 'px', paddingRight: 10 + 'px' }}
                                     value={currentWish.Description}
-                                    readOnly={currentWish.State === 0 ? false : true}
-                                />
-                                <input type="button" value="Actualizar Deseo" className="input_field submit" onClick={updateWish} style={{ display: currentWish.State === 0 ? "block" : "none" }} />
-                                <input type="button" value="Marcar Completado" className="input_field complete" onClick={completeWish} style={{ display: currentWish.State === 0 ? "block" : "none" }} />
+                                    readOnly={currentWish.State === 1}
+                                ></textarea>
+                                {currentWish.State === 0 && (
+                                    <div style={{ width: 100 + '%', display: 'flex', gap: 20 + 'px' }}>
+                                        <input
+                                            className="input_field btn-success"
+                                            type="button"
+                                            value={'Completar'}
+                                            onClick={completeWish}
+                                        />
+                                        <input
+                                            className="input_field  btn-primary"
+                                            type="button"
+                                            value={'Aceptar'}
+                                            onClick={updateWish}
+                                        />
+                                    </div>
+                                )}
                             </form>
                         </div>
                     </div>
                 </div>
             )}
-        </>
+
+            {create && (
+                <div className="window-notice">
+                    <div className="content">
+                        <div className="popup">
+                            <span className="close-btn" onClick={(e) => setCreate(false)}>✖️</span>
+                            <form className="form">
+                                <div className="note">
+                                    <label className="title">Añadir un Deseo</label>
+                                    <span className="subtitle">Agrega un deseo a la lista.</span>
+                                </div>
+                                <input
+                                    placeholder="Número del Deseo"
+                                    name="ID"
+                                    type="number"
+                                    className="input_field"
+                                    value={newWish.Id}
+                                    onChange={(e) => setNewWish({ ...newWish, Id: e.target.value })}
+                                />
+                                <textarea
+                                    placeholder="Descripción del Deseo"
+                                    name="description"
+                                    type="text"
+                                    className="input_field"
+                                    style={{ resize: 'none', width: 100 + '%', height: 100 + 'px', paddingTop: 10 + 'px', paddingRight: 10 + 'px' }}
+                                    value={newWish.Description}
+                                    onChange={(e) => setNewWish({ ...newWish, Description: e.target.value })}
+                                ></textarea>
+                                <HeartButton onClick={addWish} />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <nav className="navbar">
+                <h1>Mi Lista de Deseos</h1>
+            </nav>
+
+            <div className="container">
+                <div className="tabs">
+                    <div className="tab-buttons">
+                        <a className="tab-button active" data-tab="tab1">Pendientes</a>
+                        <a className="tab-button" data-tab="tab2">Completados</a>
+                    </div>
+
+                    <div className="tab-content active" id="tab1">
+                        {{listarDeseos}}
+                    </div>
+
+                    <div className="tab-content" id="tab2">
+                        {{listarDeseosCompletados}}
+                    </div>
+                </div>
+            </div>
+
+            <a className="floating-button" id="floatingBtn" onClick={(e) => setCreate(true)}>
+                <div className="progress-circle">
+                    <svg viewBox="0 0 36 36">
+                        <circle className="bg-circle" cx="18" cy="18" r="16"></circle>
+                        <circle className="progress-bar" cx="18" cy="18" r="16"
+                            strokeDasharray="0 100" id="progressBar"></circle>
+                    </svg>
+                    <div className="progress-text" id="progressText">{completedWishes.length / wishes.length * 100}%</div>
+                </div>
+            </a>
+        </div>
     )
 }
 
