@@ -19,19 +19,17 @@ const Wishlist = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'wish'));
-                const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const querySnapshot = await getDocs(collection(db, 'wish'));
+            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            if (datosArray.length === 0) {
+                setNeedUpdated(true);
+            } else {
                 const CW = datosArray.filter(item => item.State == 1);
                 setCompletedWishes(CW);
                 setWishes(datosArray);
-                setLoadedData(true);
                 setNeedUpdated(false);
-            } catch (error) {
-                if (error.code === 'unavailable') {
-                    setNeedUpdated(true);
-                }
             }
+            setLoadedData(true);
         };
 
         fetchData();
