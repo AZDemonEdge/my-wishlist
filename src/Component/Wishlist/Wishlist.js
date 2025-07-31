@@ -20,7 +20,7 @@ const Wishlist = () => {
     useEffect(() => {
         const fetchData = async () => {
             const querySnapshot = await getDocs(collection(db, 'wish'));
-            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort((a, b) => a.Number.localeCompare(b.Number));
             if (datosArray.length === 0) {
                 setNeedUpdated(true);
             } else {
