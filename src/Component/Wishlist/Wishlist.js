@@ -63,7 +63,7 @@ const Wishlist = () => {
         const progressBar = document.getElementById('progressBar');
 
         // Porcentaje inicial
-        let currentProgress = completedWishes.length / wishes.length * 100;
+        let currentProgress = (completedWishes.length / wishes.length * 100).toFixed(2);
 
         // Función para actualizar la barra de progreso
         function updateProgress(percentage) {
@@ -266,7 +266,7 @@ const Wishlist = () => {
                             <circle className="progress-bar" cx="18" cy="18" r="16"
                                 strokeDasharray="0 100" id="progressBar"></circle>
                         </svg>
-                        <div className="progress-text" id="progressText">{completedWishes.length / wishes.length * 100}%</div>
+                        <div className="progress-text" id="progressText">{(completedWishes.length / wishes.length * 100).toFixed(2)}%</div>
                     </div>
                 </a>
             </div>
