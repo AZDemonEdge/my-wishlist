@@ -2,7 +2,7 @@ import './Card.css';
 
 const Card = ({ wish, setCurrentWish, setEdit }) => {
     const clickEvent = (e) => {
-        setCurrentWish({docId: wish.id, Id: wish.Number, State: wish.State, Description: wish.Description, Photo: `./pictures/wish${wish.Id}.png` });
+        setCurrentWish({docId: wish.id, Id: wish.Number, State: wish.State, Description: wish.Description, Photo: `./pictures/wish${wish.Number}.png` });
         setEdit(true);
     }
     return (
