@@ -245,8 +245,8 @@ const Wishlist = () => {
                 <div className="container">
                     <div className="tabs">
                         <div className="tab-buttons">
-                            <a className="tab-button active" data-tab="tab1">Pendientes</a>
-                            <a className="tab-button" data-tab="tab2">Completados</a>
+                            <a className="tab-button active" data-tab="tab1">Pendientes ({wishes.length - completedWishes.length})</a>
+                            <a className="tab-button" data-tab="tab2">Completados ({completedWishes.length})</a>
                         </div>
 
                         <div className="tab-content active" id="tab1">
