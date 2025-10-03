@@ -155,7 +155,7 @@ const Wishlist = () => {
             <div className="bg-gradient" onLoad={init} >
 
                 {loading && (
-                    <div className="window-notice">
+                    <div className="window-notice" style={zIndex = 999}>
                         <div className="content">
                             <div class="spinner-border text-primary"></div>
                         </div>
