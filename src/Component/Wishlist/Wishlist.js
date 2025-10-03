@@ -16,6 +16,7 @@ const Wishlist = () => {
     const [loadedData, setLoadedData] = useState(false);
     const [wishes, setWishes] = useState([]);
     const [completedWishes, setCompletedWishes] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,6 +88,7 @@ const Wishlist = () => {
     }
 
     const addWish = async () => {
+        setLoading(true);
         const docRef = await addDoc(collection(db, 'wish'), {
             Number: newWish.Id,
             State: 0,
@@ -97,6 +99,7 @@ const Wishlist = () => {
     }
 
     const updateWish = async () => {
+        setLoading(true);
         const docRef = doc(db, 'wish', currentWish.docId);
 
         await updateDoc(docRef, {
@@ -108,6 +111,7 @@ const Wishlist = () => {
     }
 
     const completeWish = async () => {
+        setLoading(true);
         const docRef = doc(db, 'wish', currentWish.docId);
 
         await updateDoc(docRef, {
@@ -149,6 +153,14 @@ const Wishlist = () => {
 
         return (
             <div className="bg-gradient" onLoad={init} >
+
+                {loading && (
+                    <div className="window-notice">
+                        <div className="content">
+                            <div class="spinner-border text-primary"></div>
+                        </div>
+                    </div>
+                )}
 
                 {edit && (
                     <div className="window-notice">
