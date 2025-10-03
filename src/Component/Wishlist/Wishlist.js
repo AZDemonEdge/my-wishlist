@@ -89,6 +89,7 @@ const Wishlist = () => {
 
     const addWish = async () => {
         setLoading(true);
+        setCreate(false);
         const docRef = await addDoc(collection(db, 'wish'), {
             Number: newWish.Id,
             State: 0,
@@ -100,6 +101,7 @@ const Wishlist = () => {
 
     const updateWish = async () => {
         setLoading(true);
+        setEdit(false);
         const docRef = doc(db, 'wish', currentWish.docId);
 
         await updateDoc(docRef, {
@@ -112,6 +114,7 @@ const Wishlist = () => {
 
     const completeWish = async () => {
         setLoading(true);
+        setEdit(false);
         const docRef = doc(db, 'wish', currentWish.docId);
 
         await updateDoc(docRef, {
