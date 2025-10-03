@@ -160,7 +160,7 @@ const Wishlist = () => {
                 {loading && (
                     <div className="window-notice">
                         <div className="content">
-                            <div class="spinner-border text-primary"></div>
+                            <div class="loading"></div>
                         </div>
                     </div>
                 )}
