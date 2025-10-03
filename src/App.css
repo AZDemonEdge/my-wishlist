@@ -23,7 +23,7 @@
   top: 0;
   display: flex;
   position: fixed;
-  z-index: 990;
+  z-index: 999;
 }
 
 .dark-window-notice {
