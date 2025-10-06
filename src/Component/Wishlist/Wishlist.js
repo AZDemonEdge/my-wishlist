@@ -160,7 +160,162 @@ const Wishlist = () => {
                 {loading && (
                     <div className="window-notice">
                         <div className="content">
-                            <div class="loading"></div>
+                            <div className="heart">
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel soft-pink"></div>
+
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel white"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel soft-pink"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel pink"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                                <div className="pixel"></div>
+                            </div>
                         </div>
                     </div>
                 )}
