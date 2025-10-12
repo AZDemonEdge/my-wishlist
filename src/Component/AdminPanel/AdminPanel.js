@@ -285,7 +285,13 @@ const AdminPanel = () => {
                                                 <input 
                                                     type="checkbox"
                                                     checked={currentWish.State}
-                                                    onChange={(e) => setCurrentWish({ ...currentWish, State: e.target.checked })}
+                                                    onChange={(e) => {
+                                                        if (e.target.checked) {
+                                                            setCurrentWish({ ...currentWish, State: 1 });
+                                                        } else {
+                                                            setCurrentWish({ ...currentWish, State: 0 });
+                                                        }
+                                                    }}
                                                  />
                                                 <span className="slider"></span> 
                                             </label> {currentWish.State===1 ? 'Si' : 'No'}
