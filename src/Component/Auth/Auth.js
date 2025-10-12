@@ -46,9 +46,9 @@ const Auth = () => {
                             <span className="placeholder">Código de acceso</span>
                             {error ? (<p style={{ color: "red", marginRight: 20 + "px"}}>❌</p>) : ''}
                         </div>
-                        <button className="btn" type="button">
+                        <div className="btn">
                             <a className="btn-label" onClick={AccessCode}>Continue</a>
-                        </button>
+                        </div>
                     </div>
                 </form>
             </div>
