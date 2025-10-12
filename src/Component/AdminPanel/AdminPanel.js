@@ -3,9 +3,9 @@ import { useState, useEffect } from "react"
 import Loader from "../Loader/Loader";
 import { db } from "../Wishlist/db";
 import './AdminPanel.css';
-import { collection, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
 
-const Wishlist = () => {
+const AdminPanel = () => {
     const [newWish, setNewWish] = useState({ Id: '', Description: '' });
     const [currentWish, setCurrentWish] = useState({ docId: '', Id: '', State: '', Description: '', Photo: '' });
     const [create, setCreate] = useState(false);
