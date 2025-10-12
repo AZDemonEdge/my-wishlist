@@ -260,15 +260,15 @@ const AdminPanel = () => {
 
                 {edit && (
                     <div className="window-notice">
-                        <div className="content">
+                        <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
                             <div className="container">
                                 <h2>Editar Deseo</h2>
                                 <form>
                                     <div className="row">
-                                        <div className="col-25">
+                                        <div className="col-35">
                                             <label for="fname">Número</label>
                                         </div>
-                                        <div className="col-75">
+                                        <div>
                                             <input 
                                                 type="text" 
                                                 value={currentWish.Id}
@@ -277,25 +277,25 @@ const AdminPanel = () => {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-25">
+                                        <div className="col-35">
                                             <label for="fname">Completado</label>
                                         </div>
-                                        <div className="col-75">
+                                        <div>
                                             <label className="switch">
                                                 <input 
                                                     type="checkbox"
                                                     value={currentWish.State}
                                                     onChange={(e) => setCurrentWish({ ...currentWish, State: e.target.value })}
                                                  />
-                                                <span className="slider"></span>
+                                                <span className="slider"></span> {currentWish.State==='1' ? 'Si' : 'No'}
                                             </label>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-25">
+                                        <div class="col-35">
                                             <label for="subject">Deseo</label>
                                         </div>
-                                        <div class="col-75">
+                                        <div>
                                             <textarea style={{ height: 200 + 'px' }}
                                                 value={currentWish.Description}
                                                 onChange={(e) => setCurrentWish({ ...currentWish, Description: e.target.value })}
@@ -314,7 +314,7 @@ const AdminPanel = () => {
 
                 {create && (
                     <div className="window-notice">
-                        <div className="content">
+                        <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
                             <div className="container">
                                 <h2>Agregar Deseo</h2>
                                 <form>
@@ -328,21 +328,6 @@ const AdminPanel = () => {
                                                 value={newWish.Id}
                                                 onChange={(e) => setNewWish({ ...newWish, Id: e.target.value })}
                                             />
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-35">
-                                            <label for="fname">Completado</label>
-                                        </div>
-                                        <div>
-                                            <label className="switch">
-                                                <input 
-                                                    type="checkbox"
-                                                    value={newWish.State}
-                                                    onChange={(e) => setNewWish({ ...newWish, State: e.target.value })}
-                                                 />
-                                                <span className="slider"></span>
-                                            </label>
                                         </div>
                                     </div>
                                     <div class="row">
