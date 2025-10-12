@@ -59,6 +59,7 @@ const AdminPanel = () => {
 
     const deleteWish = async () => {
         setLoading(true);
+        console.log(currentWish.docId);
         const docRef = doc(db, 'wish', currentWish.docId);
 
         await deleteDoc(docRef);
