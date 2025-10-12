@@ -285,7 +285,7 @@ const AdminPanel = () => {
                                                 <input 
                                                     type="checkbox"
                                                     value={currentWish.State}
-                                                    onChange={(e) => setCurrentWish({ ...currentWish, Id: e.target.value })}
+                                                    onChange={(e) => setCurrentWish({ ...currentWish, State: e.target.value })}
                                                  />
                                                 <span className="slider"></span>
                                             </label>
@@ -302,7 +302,7 @@ const AdminPanel = () => {
                                             ></textarea>
                                         </div>
                                     </div>
-                                    <div className="row">
+                                    <div className="row" style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                         <a className="btn btn-success" onClick={updateWish}>EDITAR</a>
                                         <a className="btn btn-danger" onClick={() => setEdit(false)}>CANCELAR</a>
                                     </div>
@@ -319,10 +319,10 @@ const AdminPanel = () => {
                                 <h2>Agregar Deseo</h2>
                                 <form>
                                     <div className="row">
-                                        <div className="col-25">
+                                        <div className="col-35">
                                             <label for="fname">Número</label>
                                         </div>
-                                        <div className="col-75">
+                                        <div>
                                             <input 
                                                 type="text" 
                                                 value={newWish.Id}
@@ -331,32 +331,32 @@ const AdminPanel = () => {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-25">
+                                        <div className="col-35">
                                             <label for="fname">Completado</label>
                                         </div>
-                                        <div className="col-75">
+                                        <div>
                                             <label className="switch">
                                                 <input 
                                                     type="checkbox"
                                                     value={newWish.State}
-                                                    onChange={(e) => setNewWish({ ...newWish, Id: e.target.value })}
+                                                    onChange={(e) => setNewWish({ ...newWish, State: e.target.value })}
                                                  />
                                                 <span className="slider"></span>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-25">
+                                        <div class="col-35">
                                             <label for="subject">Deseo</label>
                                         </div>
-                                        <div class="col-75">
-                                            <textarea style={{ height: 200 + 'px' }}
+                                        <div>
+                                            <textarea
                                                 value={newWish.Description}
                                                 onChange={(e) => setNewWish({ ...newWish, Description: e.target.value })}
                                             ></textarea>
                                         </div>
                                     </div>
-                                    <div className="row">
+                                    <div className="row" style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                         <a className="btn btn-success" onClick={addWish}>AGREGAR</a>
                                         <a className="btn btn-danger" onClick={() => setCreate(false)}>CANCELAR</a>
                                     </div>
@@ -390,7 +390,7 @@ const AdminPanel = () => {
                                                     </path>
                                                 </g>
                                             </g>
-                                        </svg> Nuevo Deseo
+                                        </svg> Nuevo
                                     </a>
                                 </th>
                                 <th></th>

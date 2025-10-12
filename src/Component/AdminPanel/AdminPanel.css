@@ -4,10 +4,11 @@
 }
 
 .bg-admin table{
-  max-height: 80%;
+  max-height: 80vh;
   max-width: 90%;
   overflow-y: auto;
   overflow-x: auto;
+  margin-top: 1rem;
 }
 
 .btn {
@@ -28,7 +29,7 @@
 }
 
 .btn-danger{
-  background-color: rgb(253, 29, 29);
+  background-color: rgb(255, 0, 0);
 }
 
 .btn-warning{
@@ -40,7 +41,7 @@
 }
 
 .btn-danger:hover {
-  background-color: red;
+  background-color: darkred;
 }
 
 .btn-warning:hover {
@@ -56,7 +57,6 @@ input[type=text], select, textarea {
 }
 
 label {
-  padding: 12px 12px 12px 0;
   display: inline-block;
 }
 
@@ -80,23 +80,16 @@ input[type=submit]:hover {
   padding: 20px;
 }
 
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 6px;
-}
-
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 6px;
+.col-35 {
+  width: 35%;
+  align-items: center;
+  display: flex;
 }
 
 /* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+.row {
+  display: flex;
+  margin-top: 6%;
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
