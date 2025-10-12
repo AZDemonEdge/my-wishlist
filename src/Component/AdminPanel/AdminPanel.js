@@ -288,7 +288,7 @@ const AdminPanel = () => {
                                                     onChange={(e) => setCurrentWish({ ...currentWish, State: e.target.checked })}
                                                  />
                                                 <span className="slider"></span> 
-                                            </label> {currentWish.State==='1' ? 'Si' : 'No'}
+                                            </label> {currentWish.State===1 ? 'Si' : 'No'}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -388,7 +388,7 @@ const AdminPanel = () => {
                                     <td>{wish.id}</td>
                                     <td style={{textAlign: 'center'}}>{wish.Number}</td>
                                     <td>{wish.Description}</td>
-                                    <td style={{textAlign: 'center'}}>{wish.State==='1' ? 'Completado' : 'Pendiente'}</td>
+                                    <td style={{textAlign: 'center'}}>{wish.State===1 ? 'Completado' : 'Pendiente'}</td>
                                     <td>
                                         <a className="btn btn-warning" onClick={(e) => {
                                             setCurrentWish({docId: wish.id, Id: wish.Number, State: wish.State, Description: wish.Description, Photo: `./pictures/wish${wish.Number}.png` });
