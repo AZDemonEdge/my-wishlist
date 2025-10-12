@@ -11,6 +11,8 @@ const Auth = () => {
         e.preventDefault();
         if (code === '070725') {
             navigate('/wishes');
+        } else if (code === 'admin') {
+            navigate('/admin');
         } else {
             setError(true)
         }

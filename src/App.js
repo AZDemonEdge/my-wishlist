@@ -9,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/wishes" element={<Wishlist />} />
+        <Route path="/admin" element={<Wishlist />} />
       </Routes>
     </Router>
   );
