@@ -388,7 +388,7 @@ const AdminPanel = () => {
                                     <td>{wish.id}</td>
                                     <td style={{textAlign: 'center'}}>{wish.Number}</td>
                                     <td>{wish.Description}</td>
-                                    <td style={{textAlign: 'center'}}>{wish.State===1 ? 'Completado' : 'Pendiente'}</td>
+                                    <td style={{textAlign: 'center'}}>{wish.State}</td>
                                     <td>
                                         <a className="btn btn-warning" onClick={(e) => {
                                             setCurrentWish({docId: wish.id, Id: wish.Number, State: wish.State, Description: wish.Description, Photo: `./pictures/wish${wish.Number}.png` });
