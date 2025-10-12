@@ -59,8 +59,9 @@ const AdminPanel = () => {
 
     const deleteWish = async () => {
         setLoading(true);
-        setEdit(false);
-        const docRef = await deleteDoc(doc(db, 'wish', currentWish.docId));
+        const docRef = doc(db, 'wish', currentWish.docId);
+
+        await deleteDoc(docRef);
 
         window.location.reload();
     }
