@@ -284,11 +284,11 @@ const AdminPanel = () => {
                                             <label className="switch">
                                                 <input 
                                                     type="checkbox"
-                                                    value={currentWish.State}
-                                                    onChange={(e) => setCurrentWish({ ...currentWish, State: e.target.value })}
+                                                    checked={currentWish.State}
+                                                    onChange={(e) => setCurrentWish({ ...currentWish, State: e.target.checked })}
                                                  />
-                                                <span className="slider"></span> {currentWish.State==='1' ? 'Si' : 'No'}
-                                            </label>
+                                                <span className="slider"></span> 
+                                            </label> {currentWish.State==='1' ? 'Si' : 'No'}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -386,9 +386,9 @@ const AdminPanel = () => {
                                 <tr>
                                     <td></td>
                                     <td>{wish.id}</td>
-                                    <td>{wish.Number}</td>
+                                    <td style={{textAlign: 'center'}}>{wish.Number}</td>
                                     <td>{wish.Description}</td>
-                                    <td>{wish.State}</td>
+                                    <td style={{textAlign: 'center'}}>{wish.State==='1' ? 'Completado' : 'Pendiente'}</td>
                                     <td>
                                         <a className="btn btn-warning" onClick={(e) => {
                                             setCurrentWish({docId: wish.id, Id: wish.Number, State: wish.State, Description: wish.Description, Photo: `./pictures/wish${wish.Number}.png` });
