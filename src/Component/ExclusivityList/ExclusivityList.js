@@ -338,7 +338,7 @@ const ExclusivityList = () => {
                     <h1>Lista de Exclusividades</h1>
                 </nav>
 
-                <div className="container" style={{margin: 20 + 'px auto'}}>
+                <div className="container" style={{margin: 20 + 'px auto', maxWidth: 80 + '%'}}>
                     <div className="tabs">
                         <div className="tab-buttons">
                             <a className="tab-button active" data-tab="tab1">Duende Chiflado ({exclusivityGobblin.length})</a>
