@@ -6,7 +6,7 @@ import './ExclusivityList.css';
 import { collection, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
 import Swal from 'sweetalert2';
 import HeartButton from "../HeartButton/HeartButton";
-import { Navigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 const ExclusivityList = () => {
     const [newExclusivity, setNewExclusivity] = useState({ To: '', Description: '' });
@@ -15,6 +15,7 @@ const ExclusivityList = () => {
     const [loadedData, setLoadedData] = useState(false);
     const [exclusivities, setExclusivities] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -364,7 +365,7 @@ const ExclusivityList = () => {
                     </div>
                 </div>
 
-                <a className="floating-button" id="floatingBtn" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => Navigate('/wishes')}>
+                <a className="floating-button" id="floatingBtn" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => navigate('/wishes')}>
                     <svg fill="currentColor" height="35px" width="35px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
                         viewBox="0 0 512 512" xmlSpace="preserve">
                         <g>
