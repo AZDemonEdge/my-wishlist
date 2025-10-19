@@ -40,7 +40,30 @@ const AdminPanel = () => {
         };
 
         fetchData();
-    }, [wishes]);
+
+        if (loadedData) {
+            init();
+        }
+    }, [wishes, exclusivities]);
+
+    const init = () => {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+
+                // Remover clase active de todos los botones y contenidos
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Agregar clase active al botón clickeado y su contenido
+                button.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+    }
 
     const addWish = async () => {
         setLoading(true);
@@ -417,7 +440,6 @@ const AdminPanel = () => {
                                     </div>
 
                                     <div className="tab-content active" id="tab1">
-                                        <h3>Lista de Exclusividad para Duende Chiflado</h3>
                                         <ol className="exclusivity-list">
                                             {exclusivityGobblin.map(exclusivity => (
                                                 <li>{exclusivity.Description}</li>
@@ -426,7 +448,6 @@ const AdminPanel = () => {
                                     </div>
 
                                     <div className="tab-content" id="tab2">
-                                        <h3>Lista de Exclusividad para Hada Chalada</h3>
                                         <ol className="exclusivity-list">
                                             {exclusivityPixie.map(exclusivity => (
                                                 <li>{exclusivity.Description}</li>
