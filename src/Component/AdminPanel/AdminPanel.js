@@ -28,7 +28,7 @@ const AdminPanel = () => {
             } else {
                 setWishes(datosArray);
                 const query = await getDocs(collection(db, 'exclusivity'));
-                if (snapshot.empty) {
+                if (query.empty) {
                     setNeedUpdated(true);
                 } else {
                     const data = query.docs.map(doc => ({ id: doc.id, ...doc.data() }));
