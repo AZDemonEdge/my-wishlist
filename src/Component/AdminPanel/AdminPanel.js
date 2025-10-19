@@ -430,10 +430,22 @@ const AdminPanel = () => {
                 
                 {exclusivity && (
                     <div className="window-notice">
-                        <div className="content" style={{ fontSize: 1 + 'rem !important', position: 'relative'}}>
-                            <span className="close-btn" onClick={(e) => setExclusivity(false)}>✖️</span>
-                            <div className="container">
-                                <h2 style={{ margin: 0}}>Listas de Exclusividad</h2><br />
+                        <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
+                            <div className="container" style={{position: 'relative'}}>
+                                <span className="close-btn" onClick={(e) => setExclusivity(false)}>✖️</span>
+                                <h2 style={{ margin: 0}}>Listas de Exclusividad</h2>
+                                <a className="btn btn-warning" onClick={() => setCreate(true)}>
+                                    <svg width="20px" height="20px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                                        <title>new-indicator-filled</title>
+                                        <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                                            <g id="scheduler" fill="currentColor" transform="translate(85.333333, 85.333333)">
+                                                <path d="M170.666667,1.42108547e-14 C264.923264,-3.10380131e-15 341.333333,76.4100694 341.333333,170.666667 C341.333333,264.923264 264.923264,341.333333 170.666667,341.333333 C76.4100694,341.333333 2.57539587e-14,264.923264 1.42108547e-14,170.666667 C2.6677507e-15,76.4100694 76.4100694,3.15255107e-14 170.666667,1.42108547e-14 Z M192,85.3333333 L149.333333,85.3333333 L149.333333,149.333333 L85.3333333,149.333333 L85.3333333,192 L149.333333,191.999333 L149.333333,256 L192,256 L191.999333,191.999333 L256,192 L256,149.333333 L191.999333,149.333333 L192,85.3333333 Z" id="Combined-Shape">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg> Agregar Exclusividad
+                                </a>
+                                <br />
                                 <div className="tabs">
                                     <div className="tab-buttons">
                                         <a className="tab-button active" data-tab="tab1">Duende Chiflado ({exclusivityGobblin.length})</a>

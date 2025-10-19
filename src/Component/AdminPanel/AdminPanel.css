@@ -12,20 +12,10 @@
   margin-top: 1rem;
 }
 
-.popup {
-  position: relative;
-  width: 320px;
-  height: fit-content;
-  background: #FFFFFF;
-  box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 13px;
-  overflow: hidden;
-}
-
 .close-btn {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 32px;
+  top: 42px;
   z-index: 999;
   cursor: pointer;
 }
