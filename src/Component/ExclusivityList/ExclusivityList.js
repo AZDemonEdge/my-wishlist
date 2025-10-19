@@ -35,7 +35,7 @@ const ExclusivityList = () => {
         if (loadedData) {
             init();
         }
-    }, [exclusivities]);
+    }, []);
 
     const init = () => {
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -89,9 +89,7 @@ const ExclusivityList = () => {
         setCreate(false);
         try {
 
-            const coleccionRef = db.collection('exclusivity');
-
-            const docRef = await coleccionRef.add({
+            const docRef = await addDoc(collection(db, 'exclusivity'), {
                 To: newExclusivity.To,
                 Description: newExclusivity.Description
             });
