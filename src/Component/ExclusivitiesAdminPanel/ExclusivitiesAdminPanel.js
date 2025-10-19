@@ -272,7 +272,7 @@ const ExclusivitiesAdminPanel = () => {
                                             <label className="switch">
                                                 <input 
                                                     type="checkbox"
-                                                    checked={currentExclusivity.State}
+                                                    checked={currentExclusivity.To}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
                                                             setCurrentExclusivity({ ...currentExclusivity, To: 1 });
@@ -283,7 +283,7 @@ const ExclusivitiesAdminPanel = () => {
                                                  />
                                                 <span className="slider"></span> 
                                             </label> 
-                                            <p style={{textAlign: 'center'}}>{currentExclusivity.State===1 ? (
+                                            <p style={{textAlign: 'center'}}>{currentExclusivity.To===1 ? (
                                                 <span style={{ backgroundColor: 'lightpink', color: 'pink', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid pink', borderRadius: 12 + 'px'}}>
                                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M20 9C20 13.0803 16.9453 16.4471 12.9981 16.9383C12.9994 16.9587 13 16.9793 13 17V19H14C14.5523 19 15 19.4477 15 20C15 20.5523 14.5523 21 14 21H13V22C13 22.5523 12.5523 23 12 23C11.4477 23 11 22.5523 11 22V21H10C9.44772 21 9 20.5523 9 20C9 19.4477 9.44772 19 10 19H11V17C11 16.9793 11.0006 16.9587 11.0019 16.9383C7.05466 16.4471 4 13.0803 4 9C4 4.58172 7.58172 1 12 1C16.4183 1 20 4.58172 20 9ZM6.00365 9C6.00365 12.3117 8.68831 14.9963 12 14.9963C15.3117 14.9963 17.9963 12.3117 17.9963 9C17.9963 5.68831 15.3117 3.00365 12 3.00365C8.68831 3.00365 6.00365 5.68831 6.00365 9Z" fill="currentColor"/>
@@ -364,13 +364,13 @@ const ExclusivitiesAdminPanel = () => {
                 </nav>
 
                 <div className="container">
-                    <table>
-                        <thead>
+                    <table style={{width: 100 + '%'}}>
+                        <thead style={{width: 100 + '%'}}>
                             <tr>
                                 <th></th>
                                 <th>ID</th>
                                 <th>PARA</th>
-                                <th>ESCLUSIVIDAD</th>
+                                <th style={{minWidth: 41 + '%'}}>ESCLUSIVIDAD</th>
                                 <th>
                                     <a className="btn btn-info" onClick={() => navigate('/admin')}>
                                         <svg fill="currentColor" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
@@ -462,7 +462,7 @@ const ExclusivitiesAdminPanel = () => {
                                 <tr>
                                     <td></td>
                                     <td>{exclusivity.id}</td>
-                                    <td style={{textAlign: 'center'}}>{exclusivity.State===1 ? (
+                                    <td style={{textAlign: 'center'}}>{exclusivity.To===1 ? (
                                         <span style={{ backgroundColor: 'lightpink', color: 'pink', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid pink', borderRadius: 12 + 'px'}}>
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M20 9C20 13.0803 16.9453 16.4471 12.9981 16.9383C12.9994 16.9587 13 16.9793 13 17V19H14C14.5523 19 15 19.4477 15 20C15 20.5523 14.5523 21 14 21H13V22C13 22.5523 12.5523 23 12 23C11.4477 23 11 22.5523 11 22V21H10C9.44772 21 9 20.5523 9 20C9 19.4477 9.44772 19 10 19H11V17C11 16.9793 11.0006 16.9587 11.0019 16.9383C7.05466 16.4471 4 13.0803 4 9C4 4.58172 7.58172 1 12 1C16.4183 1 20 4.58172 20 9ZM6.00365 9C6.00365 12.3117 8.68831 14.9963 12 14.9963C15.3117 14.9963 17.9963 12.3117 17.9963 9C17.9963 5.68831 15.3117 3.00365 12 3.00365C8.68831 3.00365 6.00365 5.68831 6.00365 9Z" fill="currentColor"/>
