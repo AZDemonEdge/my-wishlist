@@ -9,7 +9,7 @@ import HeartButton from "../HeartButton/HeartButton";
 import { useNavigate  } from "react-router-dom";
 
 const ExclusivityList = () => {
-    const [newExclusivity, setNewExclusivity] = useState({ To: '', Description: '' });
+    const [newExclusivity, setNewExclusivity] = useState({ To: 0, Description: '' });
     const [create, setCreate] = useState(false);
     const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
@@ -364,7 +364,7 @@ const ExclusivityList = () => {
                     </div>
                 </div>
 
-                <a className="floating-button" id="floatingBtn" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => navigate('/wishes')}>
+                <a className="floating-button" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => navigate('/wishes')}>
                     <svg fill="currentColor" height="35px" width="35px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
                         viewBox="0 0 512 512" xmlSpace="preserve">
                         <g>
