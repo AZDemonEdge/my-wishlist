@@ -414,7 +414,7 @@ const Wishlist = () => {
                     <h1>Mi Lista de Deseos</h1>
                 </nav>
 
-                <div className="container" style={{margin: 20 + 'px auto', maxWidth: 80 + '%'}}>
+                <div className="container" style={{margin: 20 + 'px auto', maxWidth: 90 + '%'}}>
                     <div className="tabs">
                         <div className="tab-buttons">
                             <a className="tab-button active" data-tab="tab1">Pendientes ({wishes.length - completedWishes.length})</a>
