@@ -28,10 +28,6 @@ const ExclusivityList = () => {
                 setNeedUpdated(false);
             }
             setLoadedData(true);
-            
-            if (loadedData) {
-                init();
-            }
         };
 
         fetchData();
@@ -39,7 +35,7 @@ const ExclusivityList = () => {
         if (loadedData) {
             init();
         }
-    }, []);
+    }, [loadedData]);
 
     const init = () => {
         const tabButtons = document.querySelectorAll('.tab-button');
