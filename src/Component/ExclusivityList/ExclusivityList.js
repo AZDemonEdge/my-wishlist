@@ -6,6 +6,7 @@ import './ExclusivityList.css';
 import { collection, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
 import Swal from 'sweetalert2';
 import HeartButton from "../HeartButton/HeartButton";
+import { Navigate } from "react-router-dom";
 
 const ExclusivityList = () => {
     const [newExclusivity, setNewExclusivity] = useState({ To: '', Description: '' });
@@ -17,10 +18,10 @@ const ExclusivityList = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const querySnapshot = await getDocs(collection(db, 'wish'));
+            const querySnapshot = await getDocs(collection(db, 'exclusivity'));
             const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             if (datosArray.length === 0) {
-                setNeedUpdated(true);
+                //setNeedUpdated(true);
             } else {
                 setExclusivities(datosArray);
                 setNeedUpdated(false);
@@ -78,7 +79,7 @@ const ExclusivityList = () => {
         });
 
         floatingBtn.addEventListener('mouseleave', () => {
-            progressText.textContent = currentProgress + '%';
+            progressText.textContent = '+';
         });
     }
 
@@ -309,9 +310,8 @@ const ExclusivityList = () => {
                                 <div className="form">
                                     <div className="note">
                                         <label className="title">Añadir un Deseo</label>
-                                        <span className="subtitle">Agrega un deseo a la lista.</span>
                                     </div>
-                                    <label>Agregar a la Lista de:</label>
+                                    <label className="subtitle">Agregar a la Lista de:</label>
                                     <select
                                         className="input_field"
                                         onChange={(e) => setNewExclusivity({ ...newExclusivity, To: e.target.value })}
@@ -339,7 +339,7 @@ const ExclusivityList = () => {
                     <h1>Lista de Exclusividades</h1>
                 </nav>
 
-                <div className="container">
+                <div className="container" style={{margin: 20 + 'px auto'}}>
                     <div className="tabs">
                         <div className="tab-buttons">
                             <a className="tab-button active" data-tab="tab1">Duende Chiflado ({exclusivityGobblin.length})</a>
@@ -364,8 +364,8 @@ const ExclusivityList = () => {
                     </div>
                 </div>
 
-                <a className="floating-button" id="floatingBtn" onClick={(e) => setCreate(true)}>
-                    <svg fill="currentColor" height="800px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
+                <a className="floating-button" id="floatingBtn" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => Navigate('/wishes')}>
+                    <svg fill="currentColor" height="35px" width="35px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
                         viewBox="0 0 512 512" xmlSpace="preserve">
                         <g>
                             <g>
