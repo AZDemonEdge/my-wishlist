@@ -2,67 +2,65 @@ import { useState, useEffect } from "react"
 
 import Loader from "../Loader/Loader";
 import { db } from "../Wishlist/db";
-import './AdminPanel.css';
+import './ExclusivitiesAdminPanel.css';
 import { collection, getDocs, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
 import { useNavigate  } from "react-router-dom";
 
-const AdminPanel = () => {
-    const [newWish, setNewWish] = useState({ Id: '', Description: '' });
-    const [currentWish, setCurrentWish] = useState({ docId: '', Id: '', State: '', Description: '', Photo: '' });
+const ExclusivitiesAdminPanel = () => {
+    const [newExclusivity, setNewExclusivity] = useState({ To: 0, Description: '' });
+    const [currentExclusivity, setCurrentExclusivity] = useState({ docId: '', To: '', Description: ''});
     const [create, setCreate] = useState(false);
     const [edit, setEdit] = useState(false);
     const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
-    const [wishes, setWishes] = useState([]);
+    const [exclusivities, setExclusivityes] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const querySnapshot = await getDocs(collection(db, 'wish'));
-            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort((a, b) => a.Number - b.Number);
+            const querySnapshot = await getDocs(collection(db, 'exclusivity'));
+            const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             if (datosArray.length === 0) {
                 setNeedUpdated(true);
             } else {
-                setWishes(datosArray);
+                setExclusivityes(datosArray);
                 setNeedUpdated(false);
             }
             setLoadedData(true);
         };
 
         fetchData();
-    }, [wishes]);
+    }, [exclusivities]);
 
-    const addWish = async () => {
+    const addExclusivity = async () => {
         setLoading(true);
         setCreate(false);
-        const docRef = await addDoc(collection(db, 'wish'), {
-            Number: newWish.Id,
-            State: 0,
-            Description: newWish.Description
+        const docRef = await addDoc(collection(db, 'exclusivity'), {
+            To: newExclusivity.To,
+            Description: newExclusivity.Description
         });
 
         window.location.reload();
     }
 
-    const updateWish = async () => {
+    const updateExclusivity = async () => {
         setLoading(true);
         setEdit(false);
-        const docRef = doc(db, 'wish', currentWish.docId);
+        const docRef = doc(db, 'exclusivity', currentExclusivity.docId);
 
         await updateDoc(docRef, {
-            Number: currentWish.Id,
-            State: currentWish.State,
-            Description: currentWish.Description
+            To: currentExclusivity.To,
+            Description: currentExclusivity.Description
         });
 
         window.location.reload();
     }
 
-    const deleteWish = async (docId) => {
+    const deleteExclusivity = async (docId) => {
         setLoading(true);
 
-        const docRef = doc(db, 'wish', docId);
+        const docRef = doc(db, 'exclusivity', docId);
         await deleteDoc(docRef);
         
         window.location.reload();
@@ -264,69 +262,55 @@ const AdminPanel = () => {
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
                             <div className="container">
-                                <h2>Editar Deseo</h2>
+                                <h2>Editar Exclusividad</h2>
                                 <form>
                                     <div className="row">
                                         <div className="col-35">
-                                            <label for="fname">Número</label>
-                                        </div>
-                                        <div>
-                                            <input 
-                                                type="text" 
-                                                value={currentWish.Id}
-                                                onChange={(e) => setCurrentWish({ ...currentWish, Id: e.target.value })}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-35">
-                                            <label for="fname">Estado </label>
+                                            <label for="fname">Para </label>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 + 'px'}}>
                                             <label className="switch">
                                                 <input 
                                                     type="checkbox"
-                                                    checked={currentWish.State}
+                                                    checked={currentExclusivity.State}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            setCurrentWish({ ...currentWish, State: 1 });
+                                                            setCurrentExclusivity({ ...currentExclusivity, To: 1 });
                                                         } else {
-                                                            setCurrentWish({ ...currentWish, State: 0 });
+                                                            setCurrentExclusivity({ ...currentExclusivity, To: 0 });
                                                         }
                                                     }}
                                                  />
                                                 <span className="slider"></span> 
                                             </label> 
-                                            <p style={{textAlign: 'center'}}>{currentWish.State===1 ? (
-                                                <span style={{ backgroundColor: 'lightgreen', color: 'darkgreen', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid darkgreen', borderRadius: 12 + 'px'}}>
+                                            <p style={{textAlign: 'center'}}>{currentExclusivity.State===1 ? (
+                                                <span style={{ backgroundColor: 'lightpink', color: 'pink', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid pink', borderRadius: 12 + 'px'}}>
                                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M16.0303 10.0303C16.3232 9.73744 16.3232 9.26256 16.0303 8.96967C15.7374 8.67678 15.2626 8.67678 14.9697 8.96967L10.5 13.4393L9.03033 11.9697C8.73744 11.6768 8.26256 11.6768 7.96967 11.9697C7.67678 12.2626 7.67678 12.7374 7.96967 13.0303L9.96967 15.0303C10.2626 15.3232 10.7374 15.3232 11.0303 15.0303L16.0303 10.0303Z" fill="currentColor"/>
-                                                        <path fillRule="evenodd" clipRule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z" fill="currentColor"/>
-                                                    </svg> Completado
+                                                        <path fillRule="evenodd" clipRule="evenodd" d="M20 9C20 13.0803 16.9453 16.4471 12.9981 16.9383C12.9994 16.9587 13 16.9793 13 17V19H14C14.5523 19 15 19.4477 15 20C15 20.5523 14.5523 21 14 21H13V22C13 22.5523 12.5523 23 12 23C11.4477 23 11 22.5523 11 22V21H10C9.44772 21 9 20.5523 9 20C9 19.4477 9.44772 19 10 19H11V17C11 16.9793 11.0006 16.9587 11.0019 16.9383C7.05466 16.4471 4 13.0803 4 9C4 4.58172 7.58172 1 12 1C16.4183 1 20 4.58172 20 9ZM6.00365 9C6.00365 12.3117 8.68831 14.9963 12 14.9963C15.3117 14.9963 17.9963 12.3117 17.9963 9C17.9963 5.68831 15.3117 3.00365 12 3.00365C8.68831 3.00365 6.00365 5.68831 6.00365 9Z" fill="currentColor"/>
+                                                    </svg> Hada Chalada
                                                 </span>
                                             ) : (
-                                                <span style={{ backgroundColor: 'lightyellow', color: 'orange', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid orange', borderRadius: 12 + 'px'}}>
-                                                    <svg width="20px" height="20px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M511.9 183c-181.8 0-329.1 147.4-329.1 329.1s147.4 329.1 329.1 329.1c181.8 0 329.1-147.4 329.1-329.1S693.6 183 511.9 183z m0 585.2c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z" fill="currentColor" />
-                                                        <path d="M548.6 365.7h-73.2v161.4l120.5 120.5 51.7-51.7-99-99z" fill="currentColor" />
-                                                    </svg> Pendiente
+                                                <span style={{ backgroundColor: 'lightyblue', color: 'blue', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid blue', borderRadius: 12 + 'px'}}>
+                                                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fillRule="evenodd" clipRule="evenodd" d="M15 3C15 2.44772 15.4477 2 16 2H20C21.1046 2 22 2.89543 22 4V8C22 8.55229 21.5523 9 21 9C20.4477 9 20 8.55228 20 8V5.41288L15.4671 9.94579C15.4171 9.99582 15.363 10.0394 15.3061 10.0767C16.3674 11.4342 17 13.1432 17 15C17 19.4183 13.4183 23 9 23C4.58172 23 1 19.4183 1 15C1 10.5817 4.58172 7 9 7C10.8559 7 12.5642 7.63197 13.9214 8.69246C13.9587 8.63539 14.0024 8.58128 14.0525 8.53118L18.5836 4H16C15.4477 4 15 3.55228 15 3ZM9 20.9963C5.68831 20.9963 3.00365 18.3117 3.00365 15C3.00365 11.6883 5.68831 9.00365 9 9.00365C12.3117 9.00365 14.9963 11.6883 14.9963 15C14.9963 18.3117 12.3117 20.9963 9 20.9963Z" fill="currentColor"/>
+                                                    </svg> Duende Chiflado
                                                 </span>
                                             )}</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-35">
-                                            <label for="subject">Deseo</label>
+                                            <label for="subject">Exclusividad</label>
                                         </div>
                                         <div>
                                             <textarea style={{ height: 200 + 'px' }}
-                                                value={currentWish.Description}
-                                                onChange={(e) => setCurrentWish({ ...currentWish, Description: e.target.value })}
+                                                value={currentExclusivity.Description}
+                                                onChange={(e) => setCurrentExclusivity({ ...currentExclusivity, Description: e.target.value })}
                                             ></textarea>
                                         </div>
                                     </div>
                                     <div className="row" style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                                        <a className="btn btn-success" onClick={updateWish}>EDITAR</a>
+                                        <a className="btn btn-success" onClick={updateExclusivity}>EDITAR</a>
                                         <a className="btn btn-danger" onClick={() => setEdit(false)}>CANCELAR</a>
                                     </div>
                                 </form>
@@ -339,33 +323,34 @@ const AdminPanel = () => {
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
                             <div className="container">
-                                <h2>Agregar Deseo</h2>
+                                <h2>Agregar Exclusividad</h2>
                                 <form>
                                     <div className="row">
                                         <div className="col-35">
-                                            <label for="fname">Número</label>
+                                            <label for="fname">Para</label>
                                         </div>
                                         <div>
-                                            <input 
-                                                type="text" 
-                                                value={newWish.Id}
-                                                onChange={(e) => setNewWish({ ...newWish, Id: e.target.value })}
-                                            />
+                                            <select
+                                                onChange={(e) => setNewExclusivity({ ...newExclusivity, To: e.target.value })}
+                                            >
+                                                <option value="0" selected>Duende Chiflado</option>
+                                                <option value="1">Hada Chalada</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-35">
-                                            <label for="subject">Deseo</label>
+                                            <label for="subject">Exclusividad</label>
                                         </div>
                                         <div>
                                             <textarea
-                                                value={newWish.Description}
-                                                onChange={(e) => setNewWish({ ...newWish, Description: e.target.value })}
+                                                value={newExclusivity.Description}
+                                                onChange={(e) => setNewExclusivity({ ...newExclusivity, Description: e.target.value })}
                                             ></textarea>
                                         </div>
                                     </div>
                                     <div className="row" style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                                        <a className="btn btn-success" onClick={addWish}>AGREGAR</a>
+                                        <a className="btn btn-success" onClick={addExclusivity}>AGREGAR</a>
                                         <a className="btn btn-danger" onClick={() => setCreate(false)}>CANCELAR</a>
                                     </div>
                                 </form>
@@ -375,7 +360,7 @@ const AdminPanel = () => {
                 )}
 
                 <nav className="navbar">
-                    <h1>Mi Lista de Deseos</h1>
+                    <h1>Exclusividades</h1>
                 </nav>
 
                 <div className="container">
@@ -384,90 +369,76 @@ const AdminPanel = () => {
                             <tr>
                                 <th></th>
                                 <th>ID</th>
-                                <th>NÚMERO</th>
-                                <th>DESEO</th>
-                                <th>ESTADO</th>
+                                <th>PARA</th>
+                                <th>ESCLUSIVIDAD</th>
                                 <th>
-                                    <a className="btn btn-info" onClick={() => navigate('/admin/exclusivities')}>
+                                    <a className="btn btn-info" onClick={() => navigate('/admin')}>
                                         <svg fill="currentColor" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
-                                            viewBox="0 0 512 512" xmlSpace="preserve">
+                                        viewBox="0 0 512 512" xmlSpace="preserve">
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M378.965,156.886H268.721c-4.392,0-7.95,3.56-7.95,7.95s3.559,7.95,7.95,7.95h110.244c4.392,0,7.95-3.56,7.95-7.95
-                                                        S383.357,156.886,378.965,156.886z"/>
-                                                </g>
+                                                <path d="M428.522,0H150.261c-46.03,0-83.478,37.448-83.478,83.478v328.348H16.696C7.475,411.826,0,419.301,0,428.522
+                                                    C0,474.552,37.448,512,83.478,512h211.478c46.03,0,83.478-37.448,83.478-83.478V100.174h116.87c9.22,0,16.696-7.475,16.696-16.696
+                                                    C512,37.448,474.552,0,428.522,0z M83.478,478.609c-21.767,0-40.336-13.956-47.226-33.391h176.906
+                                                    c2.513,12.33,7.755,23.68,15.062,33.391H83.478z M345.043,83.478v345.043c0,27.618-22.469,50.087-50.087,50.087
+                                                    c-27.618,0-50.087-22.469-50.087-50.087c0-9.22-7.475-16.696-16.696-16.696h-128V83.478c0-27.618,22.469-50.087,50.087-50.087
+                                                    h211.524C351.28,47.353,345.043,64.7,345.043,83.478z M381.295,66.783c6.891-19.435,25.46-33.391,47.226-33.391
+                                                    s40.336,13.956,47.226,33.391H381.295z"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M378.965,241.689H268.721c-4.392,0-7.95,3.56-7.95,7.95s3.559,7.95,7.95,7.95h110.244c4.392,0,7.95-3.56,7.95-7.95
-                                                        S383.357,241.689,378.965,241.689z"/>
-                                                </g>
+                                                <circle cx="150.261" cy="116.87" r="16.696"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M378.965,326.493H268.721c-4.392,0-7.95,3.56-7.95,7.95s3.559,7.95,7.95,7.95h110.244c4.392,0,7.95-3.56,7.95-7.95
-                                                        S383.357,326.493,378.965,326.493z"/>
-                                                </g>
+                                                <path d="M294.957,100.174h-77.913c-9.22,0-16.696,7.475-16.696,16.696s7.475,16.696,16.696,16.696h77.913
+                                                    c9.22,0,16.696-7.475,16.696-16.696S304.177,100.174,294.957,100.174z"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M226.319,139.925h-33.921c-4.392,0-7.95,3.56-7.95,7.95v33.921c0,4.391,3.559,7.95,7.95,7.95h33.921
-                                                        c4.392,0,7.95-3.56,7.95-7.95v-33.921C234.269,143.485,230.711,139.925,226.319,139.925z M218.369,173.847h-18.021v-18.021h18.021
-                                                        V173.847z"/>
-                                                </g>
+                                                <circle cx="150.261" cy="183.652" r="16.696"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M226.319,224.729h-33.921c-4.392,0-7.95,3.56-7.95,7.95V266.6c0,4.391,3.559,7.95,7.95,7.95h33.921
-                                                        c4.392,0,7.95-3.56,7.95-7.95v-33.921C234.269,228.288,230.711,224.729,226.319,224.729z M218.369,258.65h-18.021v-18.021h18.021
-                                                        V258.65z"/>
-                                                </g>
+                                                <path d="M294.957,166.957h-77.913c-9.22,0-16.696,7.475-16.696,16.696c0,9.22,7.475,16.696,16.696,16.696h77.913
+                                                    c9.22,0,16.696-7.475,16.696-16.696C311.652,174.432,304.177,166.957,294.957,166.957z"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M226.319,309.532h-33.921c-4.392,0-7.95,3.56-7.95,7.95v33.921c0,4.391,3.559,7.95,7.95,7.95h33.921
-                                                        c4.392,0,7.95-3.56,7.95-7.95v-33.921C234.269,313.092,230.711,309.532,226.319,309.532z M218.369,343.453h-18.021v-18.021h18.021
-                                                        V343.453z"/>
-                                                </g>
+                                                <circle cx="150.261" cy="250.435" r="16.696"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <g>
-                                                        <path d="M472.39,363.911c2.615,1.083,5.75,2.382,6.282,2.602c-0.369-0.153-2.154-0.892-6.294-2.607
-                                                            c-2.485-1.029-3.531-1.462-3.66-1.516c0.134,0.056,1.75,0.725,3.652,1.512c-14.48-5.995-29.915-4.392-43.053,4.036V133.035
-                                                            c0-4.391-3.559-7.95-7.95-7.95c-4.392,0-7.95,3.56-7.95,7.95v230.54c-11.934-4.706-25.074-4.328-37.111,1.463
-                                                            c-18.668,8.982-30.732,28.596-30.732,49.968c0,4.189,0.751,8.624,2.188,13.25H165.896c-4.384,0-7.95-3.566-7.95-7.95V53.532
-                                                            c0-4.384,3.566-7.95,7.95-7.95h18.551v42.932c0,4.391,3.559,7.95,7.95,7.95h33.921c4.392,0,7.95-3.56,7.95-7.95V45.582h26.501
-                                                            v42.932c0,4.391,3.559,7.95,7.95,7.95h33.921c4.392,0,7.95-3.56,7.95-7.95V45.582h26.501v42.932c0,4.391,3.559,7.95,7.95,7.95
-                                                            h33.921c4.392,0,7.95-3.56,7.95-7.95V45.582h18.551c4.384,0,7.95,3.566,7.95,7.95v34.981c0,4.391,3.559,7.95,7.95,7.95
-                                                            c4.392,0,7.95-3.56,7.95-7.95V53.532c0-13.152-10.7-23.851-23.851-23.851h-18.551V7.95c0-4.391-3.559-7.95-7.95-7.95h-33.921
-                                                            c-4.392,0-7.95,3.56-7.95,7.95v21.731h-26.501V7.95c0-4.391-3.559-7.95-7.95-7.95h-33.921c-4.392,0-7.95,3.56-7.95,7.95v21.731
-                                                            h-26.501V7.95c0-4.391-3.559-7.95-7.95-7.95h-33.921c-4.392,0-7.95,3.56-7.95,7.95v21.731h-18.551
-                                                            c-13.151,0-23.851,10.699-23.851,23.851v366.774c0,13.152,10.7,23.851,23.851,23.851h189.142
-                                                            c19.612,32.974,63.983,64.956,65.942,66.358c3.084,1.98,6.168,1.98,9.253,0c0.756-0.541,18.722-13.45,36.967-31.246
-                                                            c25.506-24.879,38.439-46.501,38.439-64.263C505.64,392.687,492.279,372.155,472.39,363.911z M352.994,37.631V15.901h18.021
-                                                            v21.731v42.932h-18.021V37.631z M276.671,37.631V15.901h18.021v21.731v42.932h-18.021V37.631z M200.348,37.631V15.901h18.021
-                                                            v21.731v42.932h-18.021V37.631z M425.637,494.146c-12.247-9.376-45.616-36.366-58.912-61.637c0-0.001-0.001-0.002-0.001-0.003
-                                                            c-3.483-6.621-5.249-12.508-5.249-17.499c0-15.301,8.527-29.29,21.724-35.64c8.968-4.314,19.289-3.975,28.052,0.684
-                                                            c4.637,2.465,8.838,8.866,14.354,8.985c5.056,0.109,8.498-5.457,12.518-7.753c8.921-5.096,18.337-6.758,28.17-2.686
-                                                            c14.023,5.809,23.446,20.442,23.446,36.41C489.739,440.351,447.104,477.884,425.637,494.146z"/>
-                                                        <path d="M468.718,362.39C468.705,362.385,468.701,362.383,468.718,362.39L468.718,362.39z"/>
-                                                        <path d="M478.672,366.513C478.775,366.556,478.771,366.554,478.672,366.513L478.672,366.513z"/>
-                                                    </g>
-                                                </g>
+                                                <path d="M294.957,233.739h-77.913c-9.22,0-16.696,7.475-16.696,16.696c0,9.22,7.475,16.696,16.696,16.696h77.913
+                                                    c9.22,0,16.696-7.475,16.696-16.696C311.652,241.214,304.177,233.739,294.957,233.739z"/>
                                             </g>
+                                        </g>
+                                        <g>
                                             <g>
-                                                <g>
-                                                    <path d="M82.153,0C60.316,0,42.34,16.806,40.455,38.161H30.211C17.06,38.161,6.36,48.86,6.36,62.012v132.505
-                                                        c0,4.391,3.559,7.95,7.95,7.95c4.392,0,7.95-3.56,7.95-7.95V62.012c0-4.384,3.566-7.95,7.95-7.95h10.07v140.455v89.044
-                                                        c0,4.391,3.559,7.95,7.95,7.95c4.392,0,7.95-3.56,7.95-7.95v-81.093h51.942v225.789H56.182V323.843c0-4.391-3.559-7.95-7.95-7.95
-                                                        c-4.392,0-7.95,3.56-7.95,7.95v112.364c0,1.805,0.615,3.556,1.743,4.966l32.179,40.224v22.652c0,4.391,3.559,7.95,7.95,7.95
-                                                        c4.392,0,7.95-3.56,7.95-7.95v-22.652l32.179-40.224c1.127-1.41,1.743-3.161,1.743-4.966V194.518V41.872
-                                                        C124.025,18.784,105.241,0,82.153,0z M82.153,465.882l-17.379-21.724h34.76L82.153,465.882z M108.124,186.567H56.182V41.872
-                                                        c0-14.32,11.65-25.971,25.971-25.971s25.971,11.651,25.971,25.971V186.567z"/>
-                                                </g>
+                                                <circle cx="150.261" cy="317.217" r="16.696"/>
                                             </g>
-                                        </svg>
+                                        </g>
+                                        <g>
+                                            <g>
+                                                <path d="M294.957,300.522h-77.913c-9.22,0-16.696,7.475-16.696,16.696s7.475,16.696,16.696,16.696h77.913
+                                                    c9.22,0,16.696-7.475,16.696-16.696S304.177,300.522,294.957,300.522z"/>
+                                            </g>
+                                        </g>
+                                        <g>
+                                            <g>
+                                                <path d="M510.238,209.577l-33.391-66.783c-6.14-12.28-23.721-12.29-29.866,0l-33.391,66.783c-1.16,2.318-1.763,4.874-1.763,7.466
+                                                    v244.87c0,27.618,22.469,50.087,50.087,50.087S512,489.531,512,461.913v-244.87C512,214.451,511.397,211.896,510.238,209.577z
+                                                    M478.609,461.913c0,9.206-7.49,16.696-16.696,16.696s-16.696-7.49-16.696-16.696v-16.696h33.391V461.913z M478.609,411.826
+                                                    h-33.391V267.13h33.391V411.826z M478.609,233.739h-33.391v-12.754l16.696-33.391l16.696,33.391V233.739z"/>
+                                            </g>
+                                        </g>
+                                    </svg>
                                     </a>
                                 </th>
                                 <th>
@@ -487,30 +458,27 @@ const AdminPanel = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {wishes.map(wish => (
+                            {exclusivities.map(exclusivity => (
                                 <tr>
                                     <td></td>
-                                    <td>{wish.id}</td>
-                                    <td style={{textAlign: 'center'}}>{wish.Number}</td>
-                                    <td>{wish.Description}</td>
-                                    <td style={{textAlign: 'center'}}>{wish.State===1 ? (
-                                        <span style={{ backgroundColor: 'lightgreen', color: 'darkgreen', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid darkgreen', borderRadius: 12 + 'px'}}>
+                                    <td>{exclusivity.id}</td>
+                                    <td style={{textAlign: 'center'}}>{exclusivity.State===1 ? (
+                                        <span style={{ backgroundColor: 'lightpink', color: 'pink', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid pink', borderRadius: 12 + 'px'}}>
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M16.0303 10.0303C16.3232 9.73744 16.3232 9.26256 16.0303 8.96967C15.7374 8.67678 15.2626 8.67678 14.9697 8.96967L10.5 13.4393L9.03033 11.9697C8.73744 11.6768 8.26256 11.6768 7.96967 11.9697C7.67678 12.2626 7.67678 12.7374 7.96967 13.0303L9.96967 15.0303C10.2626 15.3232 10.7374 15.3232 11.0303 15.0303L16.0303 10.0303Z" fill="currentColor"/>
-                                                <path fillRule="evenodd" clipRule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z" fill="currentColor"/>
-                                            </svg> Completado
+                                                <path fillRule="evenodd" clipRule="evenodd" d="M20 9C20 13.0803 16.9453 16.4471 12.9981 16.9383C12.9994 16.9587 13 16.9793 13 17V19H14C14.5523 19 15 19.4477 15 20C15 20.5523 14.5523 21 14 21H13V22C13 22.5523 12.5523 23 12 23C11.4477 23 11 22.5523 11 22V21H10C9.44772 21 9 20.5523 9 20C9 19.4477 9.44772 19 10 19H11V17C11 16.9793 11.0006 16.9587 11.0019 16.9383C7.05466 16.4471 4 13.0803 4 9C4 4.58172 7.58172 1 12 1C16.4183 1 20 4.58172 20 9ZM6.00365 9C6.00365 12.3117 8.68831 14.9963 12 14.9963C15.3117 14.9963 17.9963 12.3117 17.9963 9C17.9963 5.68831 15.3117 3.00365 12 3.00365C8.68831 3.00365 6.00365 5.68831 6.00365 9Z" fill="currentColor"/>
+                                            </svg> Hada Chalada
                                         </span>
                                     ) : (
-                                        <span style={{ backgroundColor: 'lightyellow', color: 'orange', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid orange', borderRadius: 12 + 'px'}}>
-                                            <svg width="20px" height="20px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M511.9 183c-181.8 0-329.1 147.4-329.1 329.1s147.4 329.1 329.1 329.1c181.8 0 329.1-147.4 329.1-329.1S693.6 183 511.9 183z m0 585.2c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z" fill="currentColor" />
-                                                <path d="M548.6 365.7h-73.2v161.4l120.5 120.5 51.7-51.7-99-99z" fill="currentColor" />
-                                            </svg> Pendiente
+                                        <span style={{ backgroundColor: 'lightyblue', color: 'blue', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid blue', borderRadius: 12 + 'px'}}>
+                                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path fillRule="evenodd" clipRule="evenodd" d="M15 3C15 2.44772 15.4477 2 16 2H20C21.1046 2 22 2.89543 22 4V8C22 8.55229 21.5523 9 21 9C20.4477 9 20 8.55228 20 8V5.41288L15.4671 9.94579C15.4171 9.99582 15.363 10.0394 15.3061 10.0767C16.3674 11.4342 17 13.1432 17 15C17 19.4183 13.4183 23 9 23C4.58172 23 1 19.4183 1 15C1 10.5817 4.58172 7 9 7C10.8559 7 12.5642 7.63197 13.9214 8.69246C13.9587 8.63539 14.0024 8.58128 14.0525 8.53118L18.5836 4H16C15.4477 4 15 3.55228 15 3ZM9 20.9963C5.68831 20.9963 3.00365 18.3117 3.00365 15C3.00365 11.6883 5.68831 9.00365 9 9.00365C12.3117 9.00365 14.9963 11.6883 14.9963 15C14.9963 18.3117 12.3117 20.9963 9 20.9963Z" fill="currentColor"/>
+                                            </svg> Duende Chiflado
                                         </span>
                                     )}</td>
+                                    <td>{exclusivity.Description}</td>
                                     <td>
                                         <a className="btn btn-warning" onClick={(e) => {
-                                            setCurrentWish({docId: wish.id, Id: wish.Number, State: wish.State, Description: wish.Description, Photo: `./pictures/wish${wish.Number}.png` });
+                                            setCurrentExclusivity({docId: exclusivity.id, To: exclusivity.To, Description: exclusivity.Description });
                                             setEdit(true);
                                         }}>
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -521,7 +489,7 @@ const AdminPanel = () => {
                                         </a>
                                     </td>
                                     <td>
-                                        <a className="btn btn-danger" onClick={(e) => deleteWish(wish.id)}>
+                                        <a className="btn btn-danger" onClick={(e) => deleteExclusivity(exclusivity.id)}>
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M3 3L21 21M18 6L17.6 12M17.2498 17.2527L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6H4M16 6L15.4559 4.36754C15.1837 3.55086 14.4194 3 13.5585 3H10.4416C9.94243 3 9.47576 3.18519 9.11865 3.5M11.6133 6H20M14 14V17M10 10V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                             </svg> 
@@ -540,4 +508,4 @@ const AdminPanel = () => {
 
 }
 
-export default AdminPanel;
+export default ExclusivitiesAdminPanel;
