@@ -4,19 +4,15 @@ import Loader from "../Loader/Loader";
 import { db } from "../Wishlist/db";
 import './AdminPanel.css';
 import { collection, getDocs, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
-import Swal from 'sweetalert2';
 
 const AdminPanel = () => {
     const [newWish, setNewWish] = useState({ Id: '', Description: '' });
-    const [newExclusivity, setNewExclusivity] = useState({ To: '', Description: '' });
     const [currentWish, setCurrentWish] = useState({ docId: '', Id: '', State: '', Description: '', Photo: '' });
     const [create, setCreate] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [exclusivity, setExclusivity] = useState(false);
     const [needUpdated, setNeedUpdated] = useState(false);
     const [loadedData, setLoadedData] = useState(false);
     const [wishes, setWishes] = useState([]);
-    const [exclusivities, setExclusivities] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -27,43 +23,13 @@ const AdminPanel = () => {
                 setNeedUpdated(true);
             } else {
                 setWishes(datosArray);
-                const query = await getDocs(collection(db, 'exclusivity'));
-                if (query.empty) {
-                    //setNeedUpdated(true);
-                } else {
-                    const data = query.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setExclusivities(data);
-                    setNeedUpdated(false);
-                }
+                setNeedUpdated(false);
             }
             setLoadedData(true);
         };
 
         fetchData();
-
-        if (loadedData) {
-            init();
-        }
-    }, [wishes, exclusivities]);
-
-    const init = () => {
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const targetTab = button.getAttribute('data-tab');
-
-                // Remover clase active de todos los botones y contenidos
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-
-                // Agregar clase active al botón clickeado y su contenido
-                button.classList.add('active');
-                document.getElementById(targetTab).classList.add('active');
-            });
-        });
-    }
+    }, [wishes]);
 
     const addWish = async () => {
         setLoading(true);
@@ -99,25 +65,6 @@ const AdminPanel = () => {
         
         window.location.reload();
     }
-
-    const addExclusivity = async () => {
-        try {
-
-            const coleccionRef = db.collection('exclusivity');
-
-            const docRef = await coleccionRef.add({
-                To: newExclusivity.To,
-                Description: newExclusivity.Description
-            });
-
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: error
-            });
-        }
-    }
     
 
     if (needUpdated) {
@@ -145,9 +92,6 @@ const AdminPanel = () => {
             </>
         );
     } else {
-
-        const exclusivityGobblin = exclusivities.filter(exclusivity => exclusivity.To === 0);
-        const exclusivityPixie = exclusivities.filter(exclusivity => exclusivity.To === 1);
 
         return (
             <div className="bg-admin">
@@ -427,51 +371,6 @@ const AdminPanel = () => {
                         </div>
                     </div>
                 )}
-                
-                {exclusivity && (
-                    <div className="window-notice">
-                        <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="container" style={{position: 'relative'}}>
-                                <span className="close-btn" onClick={(e) => setExclusivity(false)}>✖️</span>
-                                <h2 style={{ margin: 0}}>Listas de Exclusividad</h2>
-                                <a className="btn btn-warning" onClick={() => setCreate(true)}>
-                                    <svg width="20px" height="20px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-                                        <title>new-indicator-filled</title>
-                                        <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                                            <g id="scheduler" fill="currentColor" transform="translate(85.333333, 85.333333)">
-                                                <path d="M170.666667,1.42108547e-14 C264.923264,-3.10380131e-15 341.333333,76.4100694 341.333333,170.666667 C341.333333,264.923264 264.923264,341.333333 170.666667,341.333333 C76.4100694,341.333333 2.57539587e-14,264.923264 1.42108547e-14,170.666667 C2.6677507e-15,76.4100694 76.4100694,3.15255107e-14 170.666667,1.42108547e-14 Z M192,85.3333333 L149.333333,85.3333333 L149.333333,149.333333 L85.3333333,149.333333 L85.3333333,192 L149.333333,191.999333 L149.333333,256 L192,256 L191.999333,191.999333 L256,192 L256,149.333333 L191.999333,149.333333 L192,85.3333333 Z" id="Combined-Shape">
-                                                </path>
-                                            </g>
-                                        </g>
-                                    </svg> Agregar Exclusividad
-                                </a>
-                                <br />
-                                <div className="tabs">
-                                    <div className="tab-buttons">
-                                        <a className="tab-button active" data-tab="tab1">Duende Chiflado ({exclusivityGobblin.length})</a>
-                                        <a className="tab-button" data-tab="tab2">Hada Chalada ({exclusivityPixie.length})</a>
-                                    </div>
-
-                                    <div className="tab-content active" id="tab1">
-                                        <ol className="exclusivity-list">
-                                            {exclusivityGobblin.map(exclusivity => (
-                                                <li>{exclusivity.Description}</li>
-                                            ))}
-                                        </ol>
-                                    </div>
-
-                                    <div className="tab-content" id="tab2">
-                                        <ol className="exclusivity-list">
-                                            {exclusivityPixie.map(exclusivity => (
-                                                <li>{exclusivity.Description}</li>
-                                            ))}
-                                        </ol> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 <nav className="navbar">
                     <h1>Mi Lista de Deseos</h1>
@@ -487,7 +386,7 @@ const AdminPanel = () => {
                                 <th>DESEO</th>
                                 <th>ESTADO</th>
                                 <th>
-                                    <a className="btn btn-info" onClick={() => setExclusivity(true)}>
+                                    <a className="btn btn-info" onClick={() => true}>
                                         <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16.5203 18.3408L16.0758 18.9449H16.0758L16.5203 18.3408ZM17.5 13.8296L16.9737 14.364C17.2657 14.6515 17.7343 14.6515 18.0263 14.364L17.5 13.8296ZM18.4797 18.3408L18.0351 17.7367L18.4797 18.3408ZM17.5 18.8201L17.5 19.5701L17.5 18.8201ZM16.9649 17.7367C16.4677 17.3709 15.8871 16.891 15.4382 16.374C14.9683 15.8329 14.75 15.3733 14.75 15.0361H13.25C13.25 15.9337 13.7742 16.7455 14.3056 17.3575C14.858 17.9937 15.5376 18.5488 16.0758 18.9449L16.9649 17.7367ZM14.75 15.0361C14.75 14.2796 15.0929 13.9195 15.4138 13.8038C15.7508 13.6823 16.3333 13.7332 16.9737 14.364L18.0263 13.2953C17.0918 12.3749 15.9243 12.0252 14.905 12.3927C13.8697 12.766 13.25 13.7847 13.25 15.0361H14.75ZM18.9242 18.9449C19.4624 18.5488 20.142 17.9937 20.6944 17.3575C21.2258 16.7455 21.75 15.9337 21.75 15.0361H20.25C20.25 15.3733 20.0317 15.8329 19.5618 16.374C19.1129 16.891 18.5323 17.3709 18.0351 17.7367L18.9242 18.9449ZM21.75 15.0361C21.75 13.7847 21.1303 12.766 20.095 12.3927C19.0757 12.0252 17.9082 12.3749 16.9737 13.2953L18.0263 14.364C18.6667 13.7332 19.2492 13.6823 19.5862 13.8038C19.9071 13.9195 20.25 14.2796 20.25 15.0361H21.75ZM16.0758 18.9449C16.4541 19.2232 16.8783 19.5701 17.5 19.5701L17.5 18.0701C17.4796 18.0701 17.4637 18.071 17.4032 18.0387C17.3121 17.99 17.1982 17.9084 16.9649 17.7367L16.0758 18.9449ZM18.0351 17.7367C17.8019 17.9084 17.688 17.99 17.5968 18.0387C17.5363 18.071 17.5204 18.0701 17.5 18.0701L17.5 19.5701C18.1217 19.5701 18.5459 19.2232 18.9242 18.9449L18.0351 17.7367Z" fill="currentColor"/>
                                             <path opacity="0.5" d="M21 6L3 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
