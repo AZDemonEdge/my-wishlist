@@ -317,7 +317,7 @@ const AdminPanel = () => {
                 {edit && (
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="container">
+                            <div className="popup">
                                 <h2>Editar Deseo</h2>
                                 <form>
                                     <div className="row">
@@ -392,7 +392,7 @@ const AdminPanel = () => {
                 {create && (
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="container">
+                            <div className="popup">
                                 <h2>Agregar Deseo</h2>
                                 <form>
                                     <div className="row">
@@ -431,7 +431,8 @@ const AdminPanel = () => {
                 {exclusivity && (
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="container">
+                            <div className="popup">
+                                <span className="close-btn" onClick={(e) => setEdit(false)}>✖️</span>
                                 <h2>Listas de Exclusividad</h2><br />
                                 <div className="tabs">
                                     <div className="tab-buttons">
