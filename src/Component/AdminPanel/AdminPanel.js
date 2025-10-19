@@ -317,7 +317,7 @@ const AdminPanel = () => {
                 {edit && (
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="popup">
+                            <div className="container">
                                 <h2>Editar Deseo</h2>
                                 <form>
                                     <div className="row">
@@ -392,7 +392,7 @@ const AdminPanel = () => {
                 {create && (
                     <div className="window-notice">
                         <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="popup">
+                            <div className="container">
                                 <h2>Agregar Deseo</h2>
                                 <form>
                                     <div className="row">
@@ -430,10 +430,10 @@ const AdminPanel = () => {
                 
                 {exclusivity && (
                     <div className="window-notice">
-                        <div className="content" style={{ fontSize: 1 + 'rem !important'}}>
-                            <div className="popup">
-                                <span className="close-btn" onClick={(e) => setEdit(false)}>✖️</span>
-                                <h2>Listas de Exclusividad</h2><br />
+                        <div className="content" style={{ fontSize: 1 + 'rem !important', position: 'relative'}}>
+                            <span className="close-btn" onClick={(e) => setExclusivity(false)}>✖️</span>
+                            <div className="container">
+                                <h2 style={{ margin: 0}}>Listas de Exclusividad</h2><br />
                                 <div className="tabs">
                                     <div className="tab-buttons">
                                         <a className="tab-button active" data-tab="tab1">Duende Chiflado ({exclusivityGobblin.length})</a>
