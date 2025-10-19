@@ -42,7 +42,7 @@ const AdminPanel = () => {
         fetchData();
     }, [wishes]);
 
-    const openTab = (e, Tab) => {
+    const openTab = (Tab) => {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
         for (i = 0; i < tabcontent.length; i++) {
@@ -51,9 +51,11 @@ const AdminPanel = () => {
         tablinks = document.getElementsByClassName("tablinks");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
+            if (tablinks[i].id !== `${Tab}-link`) {
+                tablinks[i].className += " active";
+            }
         }
         document.getElementById(Tab).style.display = "block";
-        e.currentTarget.className += " active";
     }
 
     const addWish = async () => {
@@ -426,8 +428,8 @@ const AdminPanel = () => {
                                 <h2>Listas de Exclusividad</h2>
                                 <br />
                                 <div className="tab">
-                                    <button className="tablinks active" onclick={openTab('Gobblin')}>Duende Chiflado</button>
-                                    <button className="tablinks" onclick={openTab('Pixie')}>Hada Chalada</button>
+                                    <button className="tablinks active" onclick={openTab('Gobblin')} id="Gobblin-link">Duende Chiflado</button>
+                                    <button className="tablinks" onclick={openTab('Pixie')} id="Pixie-link">Hada Chalada</button>
                                 </div>
                                 <div id="Gobblin" class="tabcontent">
                                     <h3>Lista de Exclusividad para Duende Chiflado</h3>
