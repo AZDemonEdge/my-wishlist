@@ -21,7 +21,6 @@ const ExclusivityList = () => {
         const fetchData = async () => {
             const querySnapshot = await getDocs(collection(db, 'exclusivity'));
             const datosArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log(datosArray);
             if (datosArray.length === 0) {
                 setNeedUpdated(true);
             } else {
@@ -29,6 +28,10 @@ const ExclusivityList = () => {
                 setNeedUpdated(false);
             }
             setLoadedData(true);
+            
+            if (loadedData) {
+                init();
+            }
         };
 
         fetchData();

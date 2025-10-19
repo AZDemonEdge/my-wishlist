@@ -431,7 +431,7 @@ const Wishlist = () => {
                     </div>
                 </div>
 
-                <a className="floating-button" id="floatingBtn" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => navigate('/exclusivities')}>
+                <a className="floating-button" style={{bottom: 7 + 'rem', color: '#007bff'}} onClick={(e) => navigate('/exclusivities')}>
                     <svg fill="currentColor" height="35px" width="35px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
                         viewBox="0 0 512 512" xmlSpace="preserve">
                         <g>
