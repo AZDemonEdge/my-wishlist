@@ -281,7 +281,7 @@ const ExclusivitiesAdminPanel = () => {
                                                         }
                                                     }}
                                                  />
-                                                <span className="slider"></span> 
+                                                <span className="slider2"></span> 
                                             </label> 
                                             <p style={{textAlign: 'center'}}>{currentExclusivity.To===1 ? (
                                                 <span style={{color: 'deeppink', padding: 0.3 + 'rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 0.05 + 'px solid deeppink', borderRadius: 12 + 'px'}}>

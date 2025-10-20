@@ -133,7 +133,7 @@ input[type=submit]:hover {
   height: 0;
 }
 
-.slider {
+.slider2 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -145,7 +145,7 @@ input[type=submit]:hover {
   transition: .4s;
 }
 
-.slider:before {
+.slider2:before {
   position: absolute;
   content: "";
   height: 26px;
@@ -157,22 +157,22 @@ input[type=submit]:hover {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked + .slider2 {
   background-color: deeppink;
 }
 
-input:checked + .slider:before {
+input:checked + .slider2:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
 /* Rounded sliders */
-.slider.round {
+.slider2.round {
   border-radius: 34px;
 }
 
-.slider.round:before {
+.slider2.round:before {
   border-radius: 50%;
 }
 
