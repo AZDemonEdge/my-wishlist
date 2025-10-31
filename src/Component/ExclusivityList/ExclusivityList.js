@@ -315,8 +315,8 @@ const ExclusivityList = () => {
                                         className="input_field"
                                         onChange={(e) => setNewExclusivity({ ...newExclusivity, To: e.target.value })}
                                     >
-                                        <option value="0" selected>Duende Chiflado</option>
-                                        <option value="1">Hada Chalada</option>
+                                        <option value={0} selected>Duende Chiflado</option>
+                                        <option value={1} >Hada Chalada</option>
                                     </select>
                                     <textarea
                                         placeholder="Descripción de la Exclusividad"

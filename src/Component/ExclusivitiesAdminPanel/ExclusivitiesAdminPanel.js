@@ -333,8 +333,8 @@ const ExclusivitiesAdminPanel = () => {
                                             <select
                                                 onChange={(e) => setNewExclusivity({ ...newExclusivity, To: e.target.value })}
                                             >
-                                                <option value="0" selected>Duende Chiflado</option>
-                                                <option value="1">Hada Chalada</option>
+                                                <option value={0} selected>Duende Chiflado</option>
+                                                <option value={1} >Hada Chalada</option>
                                             </select>
                                         </div>
                                     </div>
